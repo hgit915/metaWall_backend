@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema(
   {
@@ -8,12 +8,12 @@ const schema = new mongoose.Schema(
     content: { type: String },
     createdAt: {
       type: Date,
-      default: Date.now(),
-    },
+      default: Date.now()
+    }
   },
   {
-    versionKey: false,
+    versionKey: false
   }
-);
+)
 
-module.exports = mongoose.model('Post', schema);
+module.exports = mongoose.model('Post', schema)

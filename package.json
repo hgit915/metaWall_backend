@@ -4,13 +4,27 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node ./bin/www",
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
+    "start:pro": "cross-env NODE_ENV=pro nodemon ./bin/www"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "debug": "~2.6.9",
     "dotenv": "^16.0.1",
-    "mongoose": "^6.3.3"
+    "express": "~4.16.1",
+    "mongoose": "^6.3.3",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0"
   }
 }
