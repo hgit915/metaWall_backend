@@ -5,7 +5,7 @@ const header = require('./header');
 const Post = require('./models/post');
 require('dotenv').config();
 dotenv.config({ path: './.env' });
-
+  
 mongoose
   .connect(process.env.DATABASE_URL)
   .then(() => {
