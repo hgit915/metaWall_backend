@@ -2,7 +2,9 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema(
   {
     user: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: [true, '請填寫留言者'],
     },
     content: {
       type: String,
@@ -10,13 +12,12 @@ const schema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now()
+      default: Date.now
     },
     updatedAt: {
       type: Date,
-      default: Date.now()
+      default: Date.now
     }, 
-    
   },
   { 
     versionKey: false 

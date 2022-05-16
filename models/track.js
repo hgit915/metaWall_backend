@@ -2,14 +2,16 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema(
   {
     user: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
     },
     tracking: {
-      type: String,
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'user',
     },
     createdAt: {
       type: Date,
-      default: Date.now()
+      default: Date.now
     }    
   },
   { 
