@@ -6,7 +6,7 @@ const schema = new mongoose.Schema(
       ref: 'user',
     },
     tracking: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
     },
     createdAt: {
