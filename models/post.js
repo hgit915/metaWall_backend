@@ -1,18 +1,17 @@
 const mongoose = require('mongoose')
 const schema = new mongoose.Schema(
-  { 
-    user: { 
+  {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
-      require: [ true, '請輸入貼文者名稱']
+      require: [true, '請輸入貼文者名稱']
     },
-    image: { 
+    image: {
       type: String,
       default: ''
     },
     content: {
-      type: String,
-      required: [true, '請輸入貼文內容'],
+      type: String, required: [true, '請輸入貼文內容']
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
@@ -26,16 +25,16 @@ const schema = new mongoose.Schema(
     },
     tag: {
       type: [String],
-      default: [] 
+      default: []
     },
     createdAt: {
       type: Date,
       default: Date.now
-    },  
+    },
     updatedAt: {
       type: Date,
       default: Date.now
-    }  
+    }
   },
   {
     versionKey: false
