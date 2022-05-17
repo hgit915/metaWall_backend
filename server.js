@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auths')
 const postsRouter = require('./routes/posts')
 const messagesRouter = require('./routes/messages')
+const imagesRouter = require('./routes/images')
 
 require('dotenv').config()
 dotenv.config({ path: './.env' })
@@ -52,11 +53,12 @@ app.use(passport.session())
 require('./config/passport')(passport)
 
 app.use('/auth', authRouter)
+app.use('/images', imagesRouter)
+app.use('/users', usersRouter)
 app.use(usersRouter)
 app.use(postsRouter)
 app.use(messagesRouter)
 
-app.use('/users', usersRouter)
 app.use((_req, res, next) => {
   res.status(400).json({
     status: 'error',
