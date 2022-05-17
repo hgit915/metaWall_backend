@@ -3,19 +3,19 @@ const schema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'user'
     },
     tracking: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'user',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
     },
     createdAt: {
       type: Date,
       default: Date.now
-    }    
+    }
   },
-  { 
-    versionKey: false 
+  {
+    versionKey: false
   }
 )
 

@@ -4,11 +4,11 @@ const schema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
-      required: [true, '請填寫留言者'],
+      required: [true, '請填寫留言者']
     },
     content: {
       type: String,
-      required: [true, '請輸入留言內容'],
+      required: [true, '請輸入留言內容']
     },
     createdAt: {
       type: Date,
@@ -17,10 +17,10 @@ const schema = new mongoose.Schema(
     updatedAt: {
       type: Date,
       default: Date.now
-    }, 
+    }
   },
-  { 
-    versionKey: false 
+  {
+    versionKey: false
   }
 )
 
