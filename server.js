@@ -10,6 +10,7 @@ const dotenv = require('dotenv')
 const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auths')
 const postsRouter = require('./routes/posts')
+const messagesRouter = require('./routes/messages')
 
 require('dotenv').config()
 dotenv.config({ path: './.env' })
@@ -53,6 +54,7 @@ require('./config/passport')(passport)
 app.use('/auth', authRouter)
 app.use(usersRouter)
 app.use(postsRouter)
+app.use(messagesRouter)
 
 app.use('/users', usersRouter)
 app.use((_req, res, next) => {

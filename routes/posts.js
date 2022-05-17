@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Post = require('../models/post')
+const PostsControllers = require('../controllers/post')
 
 router.get('/', async (req, res, next) => {
   // 這段在幫忙處理一下  感謝
