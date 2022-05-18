@@ -19,6 +19,6 @@ const schema = new mongoose.Schema(
   }
 )
 
-const Track = mongoose.model('Track', schema)
+const Track = mongoose.model('track', schema)
 
 module.exports = Track

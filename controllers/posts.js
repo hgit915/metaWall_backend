@@ -92,10 +92,12 @@ const post = {
     //   postImage(req, res)
     // }
 
-    Post.findByIdAndUpdate(id, {
-      content
-    }).then(() =>
-      successHandler(res, 'update messages success', Post.findById(id)))
+    const result = await Post.findByIdAndUpdate(id, {
+      content,
+      updatedAt: Date.now()
+    }, { new: true })
+
+    return successHandler(res, 'update messages success', result)
   })
 }
 
