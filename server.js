@@ -54,7 +54,7 @@ require('./config/passport')(passport)
 app.use('/auth', authRouter)
 app.use('/images', imagesRouter)
 app.use('/users', usersRouter)
-app.use('/post', postsRouter)
+app.use('/posts', postsRouter)
 
 app.use((_req, res, next) => {
   res.status(400).json({
