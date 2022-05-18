@@ -5,6 +5,7 @@ const handleErrorAsync = require('../service/handleErrorAsync')
 const checkValueCanSort = require('../helpers/checkSort')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
 const { getFileInfo } = require('../service/s3/s3')
+const { postImage } = require('./images')
 
 /** 預設一頁幾筆資料 */
 const defaultPageSize = 10
@@ -77,6 +78,24 @@ const post = {
     console.log(req.params)
     console.log('晚點改')
     successHandler(res, 200, 'success')
+  }),
+
+  editPost: handleErrorAsync(async (req, res, next) => {
+    const { content, image } = req.body
+    const id = req.params.postId
+
+    if (!content) {
+      return appError(400, '貼文內容不可為空', next)
+    }
+
+    // if (image) {
+    //   postImage(req, res)
+    // }
+
+    Post.findByIdAndUpdate(id, {
+      content
+    }).then(() =>
+      successHandler(res, 'update messages success', Post.findById(id)))
   })
 }
 
