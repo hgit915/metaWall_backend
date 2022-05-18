@@ -1,9 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const { editPost } = require('../controllers/post')
-const { editMessage } = require('../controllers/message')
+const PostsControllers = require('../controllers/posts')
+const MessagesControllers = require('../controllers/message')
 
-router.post('/:postId', editPost)
-router.post('/:postId/message', editMessage)
+router.post('/:postId', PostsControllers.editPost)
+router.post('/:postId/message', MessagesControllers.editMessage)
+
+router.get('/', PostsControllers.getManyPost)
+router.post('/', PostsControllers.addPost)
+router.delete('/:id', PostsControllers.deletePost)
 
 module.exports = router
