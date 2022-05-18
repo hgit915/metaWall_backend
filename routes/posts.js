@@ -3,8 +3,8 @@ const router = express.Router()
 const PostsControllers = require('../controllers/posts')
 const MessagesControllers = require('../controllers/message')
 
-router.post('/:postId', PostsControllers.editPost)
-router.post('/:postId/message', MessagesControllers.editMessage)
+router.patch('/:postId', PostsControllers.editPost)
+router.patch('/:postId/message', MessagesControllers.editMessage)
 
 router.get('/', PostsControllers.getManyPost)
 router.post('/', PostsControllers.addPost)

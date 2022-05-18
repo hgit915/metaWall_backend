@@ -12,10 +12,12 @@ const messages = {
       return appError(400, '留言內容不可為空', next)
     }
 
-    Message.findByIdAndUpdate(id, {
-      content
-    }).then(() =>
-      successHandler(res, 'update messages success', Message.findById(id)))
+    const result = Message.findByIdAndUpdate(id, {
+      content,
+      updatedAt: Date.now()
+    }, { new: true })
+
+    return successHandler(res, 'update messages success', result)
   })
 }
 
