@@ -3,6 +3,7 @@ const validator = require('validator')
 const User = require('../models/users')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
+const successHandler = require('../service/handleSuccess')
 const { generateSendJWT } = require('../service/auth')
 
 const users = {
@@ -38,6 +39,7 @@ const users = {
     })
     generateSendJWT(newUser, 201, res)
   }),
+
   signIn: handleErrorAsync(async (req, res, next) => {
     const { email, password } = req.body
     if (!email || !password) {
@@ -49,6 +51,18 @@ const users = {
       return appError(400, '帳號或密碼錯誤，請重新輸入！', next)
     }
     generateSendJWT(user, 200, res)
+  }),
+
+  getAllUser: async (req, res, next) => {
+    const users = await User.find()
+    successHandler(res, 'all user', users)
+  },
+
+  deleteUser: handleErrorAsync(async (req, res, next) => {
+    const deleteUser = await User.findByIdAndDelete(req.params.id)
+    if (!deleteUser) return appError(404, '沒有使用者被刪除!', next)
+
+    successHandler(res, '刪除使用者成功', deleteUser)
   })
 }
 
