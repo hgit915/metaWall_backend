@@ -12,7 +12,7 @@ const messages = {
       return appError(400, '留言內容不可為空', next)
     }
 
-    const result = Message.findByIdAndUpdate(id, {
+    const result = await Message.findByIdAndUpdate(id, {
       content,
       updatedAt: Date.now()
     }, { new: true })
