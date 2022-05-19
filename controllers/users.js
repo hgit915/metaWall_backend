@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
-const User = require('../models/users')
+const User = require('../models/user')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
