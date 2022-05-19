@@ -1,13 +1,46 @@
 {
 	"info": {
-		"_postman_id": "424ace08-fb14-4eca-bd83-ddf66115f5b4",
+		"_postman_id": "f60a21e3-dd4a-4eb5-a884-aba32985906a",
 		"name": "nodejsno6 heroku api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7795449"
 	},
 	"item": [
 		{
 			"name": "post貼文",
 			"item": [
+				{
+					"name": "editPost",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"編輯貼文\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8083/posts/6285245c841073c307407b9d",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8083",
+							"path": [
+								"posts",
+								"6285245c841073c307407b9d"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "addPost",
 					"request": {
@@ -205,6 +238,39 @@
 		{
 			"name": "message留言",
 			"item": [
+				{
+					"name": "editMessage",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"gooooooooo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8083/posts/6285245c841073c307407b9d/message",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8083",
+							"path": [
+								"posts",
+								"6285245c841073c307407b9d",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "addMessage",
 					"request": {
