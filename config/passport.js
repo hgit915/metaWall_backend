@@ -1,7 +1,7 @@
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth2').Strategy
 const checkUser = require('../helpers/checkUser')
-const User = require('../models/users')
+const User = require('../models/user')
 
 module.exports = (passport) => {
   // Facebook 登入
