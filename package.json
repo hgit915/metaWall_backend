@@ -8,6 +8,9 @@
     "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
     "start:pro": "cross-env NODE_ENV=pro nodemon ./bin/www"
   },
+  "engines":{
+    "node":"v16.x"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
