@@ -11,6 +11,8 @@ const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auths')
 const postsRouter = require('./routes/posts')
 const imagesRouter = require('./routes/images')
+const swaggerUI = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 
 require('dotenv').config()
 dotenv.config({ path: './.env' })
@@ -55,6 +57,7 @@ app.use('/auth', authRouter)
 app.use('/images', imagesRouter)
 app.use('/users', usersRouter)
 app.use('/posts', postsRouter)
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 app.use((_req, res, next) => {
   res.status(400).json({

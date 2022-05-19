@@ -6,10 +6,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
-    "start:pro": "cross-env NODE_ENV=pro nodemon ./bin/www"
+    "start:pro": "cross-env NODE_ENV=pro nodemon ./bin/www",
+    "swagger":"node ./swagger.js"
   },
-  "engines":{
-    "node":"v16.x"
+  "engines": {
+    "node": "v16.x"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +33,8 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "sizeof": "^1.0.0",
+    "swagger-autogen": "^2.5.10",
+    "swagger-ui-express": "^4.3.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
