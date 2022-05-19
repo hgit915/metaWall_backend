@@ -1,22 +1,22 @@
 const express = require('express')
 const router = express.Router()
 const PostController = require('../controllers/posts')
-const MessageController = require('../controllers/message')
+const CommentController = require('../controllers/comment')
 const LikeController = require('../controllers/like')
 
-// post
+// post貼文
 router.get('/', PostController.getManyPost)
 router.post('/', PostController.addPost)
 router.patch('/:postId', PostController.editPost)
 router.delete('/:id', PostController.deletePost)
 
-// messages
-router.get('/messages', MessageController.getAllMessage)
-router.post('/:postId/message', MessageController.addMessage)
-router.patch('/:postId/message', MessageController.editMessage)
-router.delete('/:postId/:messageId', MessageController.deleteMessage)
+// comment評論
+router.get('/comments', CommentController.getAllComment)
+router.post('/:postId/comment', CommentController.addComment)
+router.patch('/:postId/comment', CommentController.editComment)
+router.delete('/:postId/:commentId', CommentController.deleteComment)
 
-// likes
+// likes按讚
 router.get('/likes', LikeController.getLikePost)
 router.post('/:postId/like', LikeController.addLike)
 router.delete('/:postId/like', LikeController.deleteLike)

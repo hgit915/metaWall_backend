@@ -18,9 +18,9 @@ const schema = new mongoose.Schema(
       ref: 'user',
       default: []
     },
-    messages: {
+    comments: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'message',
+      ref: 'comment',
       default: []
     },
     tag: {

@@ -24,6 +24,6 @@ const schema = new mongoose.Schema(
   }
 )
 
-const Message = mongoose.model('message', schema)
+const Comment = mongoose.model('comment', schema)
 
-module.exports = Message
+module.exports = Comment

@@ -28,7 +28,7 @@ const like = {
         path: 'user',
         select: 'name photo'
       })
-      .select('-messages -likes')
+      .select('-comments -likes')
       .sort({ createdAt: 'desc' })
       .skip((currentPageIndex - 1) * currentPageSize)
       .limit(currentPageSize)

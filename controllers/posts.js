@@ -1,6 +1,6 @@
 const Post = require('../models/post')
 const User = require('../models/user')
-const Message = require('../models/message')
+const Comment = require('../models/comment')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
@@ -19,7 +19,7 @@ const post = {
   getManyPost: handleErrorAsync(async (req, res) => {
     // 除了q傳遞搜尋字串之外，其他值皆屬排序
     const {
-      q, likes, messages, createdAt = defaultSort,
+      q, likes, comments, createdAt = defaultSort,
       pageIndex, pageSize
     } = req.query
 
@@ -30,7 +30,7 @@ const post = {
     const filterBySort = {}
 
     if (checkValueCanSort(likes)) filterBySort.likes = likes
-    if (checkValueCanSort(messages)) filterBySort.messages = messages
+    if (checkValueCanSort(comments)) filterBySort.comments = comments
     if (checkValueCanSort(createdAt)) filterBySort.createdAt = createdAt
 
     const posts = await Post.find(filterByQuery)
@@ -39,7 +39,7 @@ const post = {
         select: 'name photo'
       })
       .populate({
-        path: 'messages',
+        path: 'comments',
         select: 'user content createdAt',
         populate: {
           path: 'user',
@@ -95,29 +95,29 @@ const post = {
       updatedAt: Date.now()
     }, { new: true })
 
-    return successHandler(res, 'update messages success', result)
+    return successHandler(res, 'update comment success', result)
   }),
 
   deletePost: handleErrorAsync(async (req, res, next) => {
     const deletePost = await Post.findByIdAndDelete(req.params.id)
     if (!deletePost) return appError(404, '刪除錯誤，沒有id ?', next)
 
-    if (!deletePost.messages?.length) return
+    if (!deletePost.comments?.length) return
 
-    const messageIdList = deletePost.messages.map(objectId => parseObjectId(objectId))
+    const commentIdList = deletePost.comments.map(objectId => parseObjectId(objectId))
 
     // 防呆一下
-    if (!messageIdList[0]) return appError(404, 'id格式轉換錯誤瞜', next)
+    if (!commentIdList[0]) return appError(404, 'id格式轉換錯誤瞜', next)
 
-    const deleteMessages = await Message.deleteMany({
+    const deleteComment = await Comment.deleteMany({
       id: {
-        $in: messageIdList
+        $in: commentIdList
       }
     })
 
     successHandler(res, 200, {
       deletePost,
-      deleteMessages
+      deleteComment
     })
   })
 }
