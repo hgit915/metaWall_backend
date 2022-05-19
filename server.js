@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auths')
 const postsRouter = require('./routes/posts')
 const imagesRouter = require('./routes/images')
+const appError = require('./service/appError')
 const swaggerUI = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
 
@@ -60,10 +61,7 @@ app.use('/posts', postsRouter)
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 app.use((_req, res, next) => {
-  res.status(400).json({
-    status: 'error',
-    message: '找不到路徑'
-  })
+  appError(404, '找不到路徑', next)
 })
 
 app.use((err, req, res, next) => {

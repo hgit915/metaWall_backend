@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken')
 const appError = require('../service/appError')
-const handleErrorAsync = require('../service/handleErrorAsync')
 const User = require('../models/user')
-const isAuth = handleErrorAsync(async (req, res, next) => {
+const isAuth = async (req, res, next) => {
   if (req.isAuthenticated()) {
-    return next()
+    return res.redirect('/users/sign_in')
   }
-  res.redirect('/users/sign_in')
   // 確認 token 是否存在
   let token
   if (
@@ -34,7 +32,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
 
   req.user = currentUser
   next()
-})
+}
 const generateSendJWT = (user, statusCode, res) => {
   // 產生 JWT token
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

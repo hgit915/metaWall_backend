@@ -1,9 +1,8 @@
 const Post = require('../models/post')
-const User = require('../models/user')
-const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
+const appError = require('../service/appError')
 
 /** 預設一頁幾筆資料 */
 const defaultPageSize = 10
@@ -11,17 +10,14 @@ const defaultPageIndex = 1
 
 const like = {
   getLikePost: handleErrorAsync(async (req, res, next) => {
-    const { user } = req.body
     const { pageIndex, pageSize } = req.query
 
-    if (!user) return appError(404, '請輸入必填欄位', next)
-
     const currentPageIndex = isPositiveInteger(pageIndex) ? pageIndex : defaultPageIndex
-    const currentPageSize = isPositiveInteger(pageSize) ? pageIndex : defaultPageSize
+    const currentPageSize = isPositiveInteger(pageSize) ? pageSize : defaultPageSize
 
     const posts = await Post.find({
       likes: {
-        $in: user
+        $in: req.user._id
       }
     })
       .populate({
@@ -36,44 +32,40 @@ const like = {
     successHandler(res, 200, posts)
   }),
 
-  addLike: handleErrorAsync(async (req, res, next) => {
+  like: handleErrorAsync(async (req, res, next) => {
     const { postId } = req.params
-    const { user } = req.body
 
-    if (!user || !postId) return appError(404, '請輸入必填欄位', next)
+    const filter = {
+      _id: postId,
+      likes: { $nin: req.user._id }
+    }
 
-    const currentUser = await User.findById(user)
-    const currentPost = await Post.findById(postId)
-
-    if (!currentUser) return appError(404, '無此使用者', next)
-    if (!currentPost) return appError(404, '無此貼文', next)
-
-    const updatePost = await Post.findByIdAndUpdate(postId, {
+    const updatePost = await Post.findOneAndUpdate(filter, {
       $push: {
-        likes: user
+        likes: req.user._id
       }
     }, { new: true })
+
+    if (!updatePost) return appError(404, '按讚錯誤', next)
 
     successHandler(res, '成功更新讚數', updatePost)
   }),
 
-  deleteLike: handleErrorAsync(async (req, res, next) => {
+  unLike: handleErrorAsync(async (req, res, next) => {
     const { postId } = req.params
-    const { user } = req.body
 
-    if (!user || !postId) return appError(404, '請輸入必填欄位', next)
+    const filter = {
+      _id: postId,
+      likes: { $in: req.user._id }
+    }
 
-    const currentUser = await User.findById(user)
-    const currentPost = await Post.findById(postId)
-
-    if (!currentUser) return appError(404, '無此使用者', next)
-    if (!currentPost) return appError(404, '無此貼文', next)
-
-    const updatePost = await Post.findByIdAndUpdate(postId, {
+    const updatePost = await Post.findOneAndUpdate(filter, {
       $pull: {
-        likes: user
+        likes: req.user._id
       }
     }, { new: true })
+
+    if (!updatePost) return appError(404, '取消讚錯誤', next)
 
     successHandler(res, '成功移除按讚', updatePost)
   })

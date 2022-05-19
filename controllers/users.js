@@ -60,7 +60,6 @@ const users = {
 
   deleteUser: handleErrorAsync(async (req, res, next) => {
     const deleteUser = await User.findByIdAndDelete(req.params.id)
-    if (!deleteUser) return appError(404, '沒有使用者被刪除!', next)
 
     successHandler(res, '刪除使用者成功', deleteUser)
   })
