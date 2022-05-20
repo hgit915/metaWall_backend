@@ -42,7 +42,7 @@ async function postImage (req, res, next) {
 
   const result = await uploadFile(req.file)
   return successHandler(res, 'upload image success', {
-    imageUrl: `/images/${result.Key}`
+    imageUrl: result.Key
   })
 }
 
