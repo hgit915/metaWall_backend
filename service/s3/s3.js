@@ -28,7 +28,7 @@ function uploadFile (file) {
 /**
  * 取得對象本身。如果存的是圖片，就取到那個圖片本身
  */
-function getFileAsync (fileKey) {
+async function getFileById (fileKey) {
   const downloadParams = {
     Key: fileKey,
     Bucket: bucketName
@@ -41,7 +41,7 @@ function getFileAsync (fileKey) {
  * 取得對象的元數據而不返回對象本身
  * https://docs.aws.amazon.com/zh_cn/AWSJavaScriptSDK/latest/AWS/S3.html#headObject-property
  */
-async function getFileInfo (fileKey) {
+async function getFileInfoById (fileKey) {
   const params = {
     Bucket: bucketName,
     Key: fileKey
@@ -62,6 +62,6 @@ async function getFileInfo (fileKey) {
 
 module.exports = {
   uploadFile,
-  getFileAsync,
-  getFileInfo
+  getFileById,
+  getFileInfoById
 }

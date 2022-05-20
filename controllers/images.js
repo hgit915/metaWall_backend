@@ -1,5 +1,5 @@
 const { Readable } = require('stream')
-const { uploadFile, getFileAsync } = require('../service/s3/s3')
+const { uploadFile, getFileById } = require('../service/s3/s3')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
@@ -19,7 +19,7 @@ async function getImage (req, res, next) {
   const { key } = req.params
   if (!key) return appError('404', 'key required!!', next)
 
-  const buffer = (await getFileAsync(key)).Body
+  const buffer = (await getFileById(key)).Body
 
   return Readable.from(buffer).pipe(res)
 }
@@ -42,7 +42,7 @@ async function postImage (req, res, next) {
 
   const result = await uploadFile(req.file)
   return successHandler(res, 'upload image success', {
-    imageUrl: `/images/${result.Key}`
+    imageUrl: result.Key
   })
 }
 

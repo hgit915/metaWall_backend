@@ -16,7 +16,8 @@ const resError = {
   },
   // 開發環境錯誤
   resErrorDev (err, res) {
-    if (err.message.includes('Cast to ObjectId failed')) {
+    // 之後再統整錯誤的資訊 ~
+    if (err.message?.includes('Cast to ObjectId failed')) {
       err.message = '錯誤的id!!'
     }
     res.status(err.statusCode).json({

@@ -1,34 +1,39 @@
 const bcrypt = require('bcryptjs')
-const validator = require('validator')
 const User = require('../models/user')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
+const RequestBlocker = require('../service/blocker/RequestBlocker')
 const { generateSendJWT } = require('../service/auth')
+const { getFileInfoById } = require('../service/s3/s3')
+const { atLeastOneRequired } = require('../service/blocker/rule/common-rule')
+const {
+  isEmailHasntBeenRegistered,
+  haveNameEmailPassword,
+  isNameLengthGreaterThanTwo,
+  isPasswordLengthGreaterThanEight,
+  isEmailCorrectFormat,
+  hasNameAndNameLengthGreaterThanTwo,
+  hadGenderAndValueValid
+} = require('../service/blocker/rule/user-rule')
 
 const users = {
   signUp: handleErrorAsync(async (req, res, next) => {
+    const errorData = await new RequestBlocker(req)
+      .setBlocker(
+        haveNameEmailPassword,
+        isEmailCorrectFormat,
+        isEmailHasntBeenRegistered,
+        isNameLengthGreaterThanTwo,
+        isPasswordLengthGreaterThanEight
+      ).getErrorDataAsync()
+
+    if (errorData) {
+      const { statusCode, errorMessage } = errorData
+      return appError(statusCode, errorMessage, next)
+    }
+
     let { email, password, name } = req.body
-    const user = await User.findOne({ email })
-    if (user) {
-      return appError('400', '帳號已被註冊，請替換新的 Email！', next)
-    }
-    // 內容不可為空
-    if (!email || !password || !name) {
-      return appError('400', '欄位未填寫正確！', next)
-    }
-    // 暱稱 2 碼以上
-    if (!validator.isLength(name, { min: 2 })) {
-      return appError('400', '暱稱至少 2 個字元以上', next)
-    }
-    // 密碼 8 碼以上
-    if (!validator.isLength(password, { min: 8 })) {
-      return appError('400', '密碼需至少 8 碼以上，並中英混合', next)
-    }
-    // 是否為 Email
-    if (!validator.isEmail(email)) {
-      return appError('400', 'Email 格式不正確', next)
-    }
 
     // 加密密碼
     password = await bcrypt.hash(req.body.password, 12)
@@ -37,6 +42,7 @@ const users = {
       password,
       name
     })
+
     generateSendJWT(newUser, 201, res)
   }),
 
@@ -60,8 +66,67 @@ const users = {
 
   deleteUser: handleErrorAsync(async (req, res, next) => {
     const deleteUser = await User.findByIdAndDelete(req.params.id)
-
     successHandler(res, '刪除使用者成功', deleteUser)
+  }),
+
+  getUserInfo: handleErrorAsync(async (req, res, next) => {
+    const userData = await User.findById(req.user._id)
+    successHandler(res, '取得用戶資料成功', userData)
+  }),
+
+  updateUserInfo: handleErrorAsync(async (req, res, next) => {
+    const { name, gender, photo } = req.body
+
+    const errorData = new RequestBlocker(req)
+      .setBlocker(
+        atLeastOneRequired(name, gender, photo),
+        hasNameAndNameLengthGreaterThanTwo,
+        hadGenderAndValueValid
+      ).getErrorData()
+
+    if (errorData) {
+      const { statusCode, errorMessage } = errorData
+      return appError(statusCode, errorMessage, next)
+    }
+
+    const updateFilter = {}
+    if (name) updateFilter.name = name
+    if (gender) updateFilter.gender = gender
+
+    // 沒有photo的情況
+    if (!photo) {
+      const updateUser = await User.findByIdAndUpdate(req.user._id, updateFilter, { new: true })
+      return successHandler(res, '個人資訊更新成功', updateUser)
+    }
+
+    // 有photo的情況
+    await getFileInfoById(photo)
+
+    const updateUser = await User.findByIdAndUpdate(req.user._id,
+      {
+        ...updateFilter,
+        photo
+      },
+      { new: true }
+    )
+    return successHandler(res, '個人資訊更新成功', updateUser)
+  }),
+
+  updatePassword: handleErrorAsync(async (req, res, next) => {
+    const { confirmPassword, password } = req.body
+
+    if (!confirmPassword || !password) return appError(404, '請輸入必填欄位', next)
+    if (confirmPassword !== password) return appError(404, '密碼確認錯誤', next)
+
+    const checkPassword = isPasswordLengthGreaterThanEight(req)
+    if (checkPassword !== true) return appError(checkPassword.statusCode, checkPassword.errorMessage, next)
+
+    const newPassword = await bcrypt.hash(req.body.password, 12)
+    const updateUser = await User.findByIdAndUpdate(req.user._id, {
+      password: newPassword
+    }, { new: true })
+
+    successHandler(res, '更新密碼成功', updateUser)
   })
 }
 

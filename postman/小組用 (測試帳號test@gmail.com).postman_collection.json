@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "275ca0b8-7af0-465c-9cf1-771c01ebbf4a",
+		"name": "小組用 (測試帳號test@gmail.com)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post貼文",
+			"item": [
+				{
+					"name": "addPost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"測試發文\",\r\n    \"image\": \"放postImage後回來的id，該欄可不填\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllPost",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts?q=測試&createdAt=asc",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "測試",
+									"description": "搜尋字串"
+								},
+								{
+									"key": "likes",
+									"value": "asc",
+									"description": "貼文按讚數排序",
+									"disabled": true
+								},
+								{
+									"key": "createdAt",
+									"value": "asc",
+									"description": "貼文時間排序"
+								},
+								{
+									"key": "comments",
+									"value": "desc",
+									"description": "評論數排序",
+									"disabled": true
+								},
+								{
+									"key": "pageIndex",
+									"value": "2",
+									"description": "第幾頁",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "20",
+									"description": "一頁幾筆",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/6286662b445f78df7c5bbc27",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6286662b445f78df7c5bbc27"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "image圖片",
+			"item": [
+				{
+					"name": "getImage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/images/b6c83ba7ec78fdf44d0229436896c666",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"images",
+								"b6c83ba7ec78fdf44d0229436896c666"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postImage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Wins/Desktop/06-Magma.gif"
+								},
+								{
+									"key": "ratio",
+									"value": "1:1",
+									"description": "可選",
+									"type": "text"
+								},
+								{
+									"key": "minWidth",
+									"value": "300",
+									"description": "可選",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/images",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"images"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user使用者",
+			"item": [
+				{
+					"name": "sign_in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@gmail.com\",\r\n    \"password\": \"testtest\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/sign_in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign_up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"測試用帳號2\",\r\n    \"email\": \"te@gm.com\",\r\n    \"password\": \"testtest\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/sign_up",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUserInfo 更新登入者資料",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"photo\": \"b6c83ba7ec78fdf44d0229436896c666\",\r\n    \"name\": \"77777\",\r\n    \"gender\": \"male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"11111111\",\r\n    \"confirmPassword\": \"11111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(測試用)getAllUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment留言",
+			"item": [
+				{
+					"name": "addComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"666666666666\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/6286662b445f78df7c5bbc27/comment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6286662b445f78df7c5bbc27",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/6286662b445f78df7c5bbc27/comment/62868947e78e048fdda5b137",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6286662b445f78df7c5bbc27",
+								"comment",
+								"62868947e78e048fdda5b137"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(測試用)getAllComment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/comments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "like按讚",
+			"item": [
+				{
+					"name": "addLike",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/628691a3f74873c5d91a1df5/like",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"628691a3f74873c5d91a1df5",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unLike",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/628691a3f74873c5d91a1df5/unlike",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"628691a3f74873c5d91a1df5",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLikePost",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/likes?pageIndex=1&pageSize=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"likes"
+							],
+							"query": [
+								{
+									"key": "pageIndex",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODViMWM2MjFhMWU4YjA2M2Y0NDU1OCIsImlhdCI6MTY1MzAzNDYzOCwiZXhwIjoxNjUzNjM5NDM4fQ.jlsd6WOqnM6bqTWCzr5h6HgPCD65PakOj9LlL5bFPW4",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

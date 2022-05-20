@@ -5,8 +5,8 @@ const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
 const checkValueCanSort = require('../helpers/checkSort')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
-const { getFileInfo } = require('../service/s3/s3')
 const parseObjectId = require('../helpers/parseObjectId')
+const { getFileInfoById } = require('../service/s3/s3')
 const { postImage } = require('./images')
 
 /** 預設一頁幾筆資料 */
@@ -66,7 +66,7 @@ const post = {
       return successHandler(res, 200, result)
     }
 
-    const isImageInS3 = await getFileInfo(image)
+    const isImageInS3 = await getFileInfoById(image)
     const result = await Post.create({
       content,
       image: isImageInS3 ? image : '',
@@ -101,7 +101,6 @@ const post = {
     if (!deletePost.comments?.length) return successHandler(res, '刪除成功', deletePost)
 
     const commentIdList = deletePost.comments.map(objectId => parseObjectId(objectId))
-
     const deleteComment = await Comment.deleteMany({
       id: {
         $in: commentIdList
