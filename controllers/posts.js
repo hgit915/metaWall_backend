@@ -1,5 +1,4 @@
 const Post = require('../models/post')
-const User = require('../models/user')
 const Comment = require('../models/comment')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
@@ -58,15 +57,12 @@ const post = {
 
   addPost: handleErrorAsync(async (req, res, next) => {
     // image是傳id值
-    const { content, image, user } = req.body
-    if (!content || !user) return appError(404, '請輸入必填欄位', next)
-
-    const currentUser = await User.findById(user)
-    if (!currentUser) return appError(404, 'invaild user', next)
+    const { content, image } = req.body
+    if (!content) return appError(404, '請輸入必填欄位', next)
 
     // 處理沒有圖片的提交
     if (!image) {
-      const result = await Post.create({ content, user })
+      const result = await Post.create({ content, user: req.user._id })
       return successHandler(res, 200, result)
     }
 
@@ -74,7 +70,7 @@ const post = {
     const result = await Post.create({
       content,
       image: isImageInS3 ? image : '',
-      author: req.user.id
+      user: req.user._id
     })
     return successHandler(res, 200, result)
   }),
@@ -102,12 +98,9 @@ const post = {
     const deletePost = await Post.findByIdAndDelete(req.params.id)
     if (!deletePost) return appError(404, '刪除錯誤，沒有id ?', next)
 
-    if (!deletePost.comments?.length) return
+    if (!deletePost.comments?.length) return successHandler(res, '刪除成功', deletePost)
 
     const commentIdList = deletePost.comments.map(objectId => parseObjectId(objectId))
-
-    // 防呆一下
-    if (!commentIdList[0]) return appError(404, 'id格式轉換錯誤瞜', next)
 
     const deleteComment = await Comment.deleteMany({
       id: {

@@ -1,11 +1,12 @@
 const multer = require('multer')
 const express = require('express')
 const router = express.Router()
+const { isAuth } = require('../service/auth')
 
 const upload = multer({ dest: 'uploads/' })
-const { getImage, postImage } = require('../controllers/images')
+const ImageController = require('../controllers/images')
 
-router.get('/:key', getImage)
-router.post('/', upload.single('image'), postImage)
+router.get('/:key', isAuth, ImageController.getImage)
+router.post('/', isAuth, upload.single('image'), ImageController.postImage)
 
 module.exports = router

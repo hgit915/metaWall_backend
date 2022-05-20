@@ -3,22 +3,23 @@ const router = express.Router()
 const PostController = require('../controllers/posts')
 const CommentController = require('../controllers/comment')
 const LikeController = require('../controllers/like')
+const { isAuth } = require('../service/auth')
 
 // post貼文
-router.get('/', PostController.getManyPost)
-router.post('/', PostController.addPost)
-router.patch('/:postId', PostController.editPost)
-router.delete('/:id', PostController.deletePost)
+router.get('/', isAuth, PostController.getManyPost)
+router.post('/', isAuth, PostController.addPost)
+router.patch('/:postId', isAuth, PostController.editPost)
+router.delete('/:id', isAuth, PostController.deletePost)
 
 // comment評論
-router.get('/comments', CommentController.getAllComment)
-router.post('/:postId/comment', CommentController.addComment)
-router.patch('/:postId/comment', CommentController.editComment)
-router.delete('/:postId/:commentId', CommentController.deleteComment)
+router.get('/comments', isAuth, CommentController.getAllComment) // 測試用
+router.post('/:postId/comment', isAuth, CommentController.addComment)
+router.patch('/:postId/comment', isAuth, CommentController.editComment)
+router.delete('/:postId/comment/:commentId', isAuth, CommentController.deleteComment)
 
 // likes按讚
-router.get('/likes', LikeController.getLikePost)
-router.post('/:postId/like', LikeController.addLike)
-router.delete('/:postId/like', LikeController.deleteLike)
+router.get('/likes', isAuth, LikeController.getLikePost)
+router.patch('/:postId/like', isAuth, LikeController.like)
+router.patch('/:postId/unlike', isAuth, LikeController.unLike)
 
 module.exports = router
