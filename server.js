@@ -54,9 +54,9 @@ app.use(passport.session())
 
 require('./config/passport')(passport)
 
+app.use(usersRouter)
 app.use('/auth', authRouter)
 app.use('/images', imagesRouter)
-app.use('/users', usersRouter)
 app.use('/posts', postsRouter)
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
