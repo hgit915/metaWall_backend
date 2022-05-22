@@ -55,6 +55,46 @@ const post = {
     successHandler(res, 200, posts)
   }),
 
+  getUserPost: handleErrorAsync(async (req, res, next) => {
+    const user = req.params.userId
+    const {
+      q, likes, comments, createdAt = defaultSort,
+      pageIndex, pageSize
+    } = req.query
+
+    const currentPageIndex = isPositiveInteger(pageIndex) ? pageIndex : defaultPageIndex
+    const currentPageSize = isPositiveInteger(pageSize) ? pageIndex : defaultPageSize
+
+    const filterByQuery = q ? { user, content: new RegExp(`${q}`, 'i') } : { user }
+    const filterBySort = {}
+
+    if (checkValueCanSort(likes)) filterBySort.likes = likes
+    if (checkValueCanSort(comments)) filterBySort.comments = comments
+    if (checkValueCanSort(createdAt)) filterBySort.createdAt = createdAt
+
+    const result = await Post.find(filterByQuery)
+      .populate({
+        path: 'user',
+        select: 'name photo'
+      })
+      .populate({
+        path: 'comments',
+        select: 'user content createdAt',
+        populate: {
+          path: 'user',
+          select: 'name photo'
+        }
+      }).populate({
+        path: 'likes'
+      })
+      .sort(filterBySort)
+      .skip((currentPageIndex - 1) * currentPageSize)
+      .limit(currentPageSize)
+
+    const msg = result.length == 0 ? '查無相關貼文' : '200'
+    successHandler(res, msg, result)
+  }),
+
   addPost: handleErrorAsync(async (req, res, next) => {
     // image是傳id值
     const { content, image } = req.body
