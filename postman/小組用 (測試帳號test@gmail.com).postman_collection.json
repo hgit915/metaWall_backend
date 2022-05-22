@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "275ca0b8-7af0-465c-9cf1-771c01ebbf4a",
+		"_postman_id": "39439460-1b56-4197-b926-469426bb58c4",
 		"name": "小組用 (測試帳號test@gmail.com)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7795449"
 	},
 	"item": [
 		{
@@ -100,6 +101,62 @@
 							"path": [
 								"posts",
 								"6286662b445f78df7c5bbc27"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserPost",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/6285b1c621a1e8b063f44558/user?q=77&createdAt=asc",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6285b1c621a1e8b063f44558",
+								"user"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "77"
+								},
+								{
+									"key": "createdAt",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editPost",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"編輯貼文\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/6285245c841073c307407b9d",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6285245c841073c307407b9d"
 							]
 						}
 					},
