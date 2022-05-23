@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "39439460-1b56-4197-b926-469426bb58c4",
+		"_postman_id": "8f8332c1-0a91-41d8-b46d-97c2a094907b",
 		"name": "小組用 (測試帳號test@gmail.com)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7795449"
@@ -560,6 +560,64 @@
 									"key": "pageSize",
 									"value": "10"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "track追蹤",
+			"item": [
+				{
+					"name": "getTrackList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tracks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTrack",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tracks/628528caf00d0c28c8414e71",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tracks",
+								"628528caf00d0c28c8414e71"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTrack",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tracks/628528caf00d0c28c8414e71",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tracks",
+								"628528caf00d0c28c8414e71"
 							]
 						}
 					},
