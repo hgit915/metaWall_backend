@@ -6,7 +6,6 @@ const { map } = require('../server')
 
 const track = {
   getTrackList: handleErrorAsync(async (req, res) => {
-    let msg = '200'
     const tracks = await Track.find({
       user: req.user.id
     })
@@ -14,11 +13,10 @@ const track = {
         path: 'tracking',
         select: 'name photo'
       })
-    if (tracks.length === 0) msg = '目前無追蹤者'
 
+    if (tracks.length === 0) { return successHandler(res, '目前無追蹤者', []) }
     // 重組 tracker 回傳
-    const tracking = []
-    tracks.map((ele) => {
+    const tracking = tracks.map((ele) => {
       const { _id, name, photo } = ele.tracking
       const tracker = {
         _id,
@@ -26,14 +24,13 @@ const track = {
         photo,
         createdAt: ele.createdAt
       }
-      tracking.push(tracker)
+      return tracker
     })
-
     const result = {
       user: req.user.id,
       tracking
     }
-    successHandler(res, msg, result)
+    successHandler(res, '200', result)
   }),
 
   addTrack: handleErrorAsync(async (req, res, next) => {
@@ -46,9 +43,6 @@ const track = {
     const checkTracker = await Track.find({
       user: req.user.id,
       tracking: trackId
-    }).populate({
-      path: 'user',
-      select: 'name'
     })
 
     if (checkTracker.length > 0) return next(appError(401, '您已追蹤該用戶', next))
@@ -72,14 +66,11 @@ const track = {
       tracking: trackId
     })
 
-    if (!deleteTracker || deleteTracker.length == 0) return next(appError(401, '追蹤列表無該用戶，無法刪除', next))
+    if (!deleteTracker || deleteTracker.length === 0) return next(appError(401, '追蹤列表無該用戶，無法刪除', next))
 
     return successHandler(res, '取消追蹤成功', deleteTracker)
   })
 
-  //   checkTrackerStatus: handleErrorAsync(async (req, res, next) => {
-
-//   })
 }
 
 module.exports = track
