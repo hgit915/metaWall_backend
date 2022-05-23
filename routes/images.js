@@ -6,7 +6,7 @@ const { isAuth } = require('../service/auth')
 const upload = multer({ dest: 'uploads/' })
 const ImageController = require('../controllers/images')
 
-router.get('/:key', isAuth, ImageController.getImage)
+router.get('/:key', ImageController.getImage)
 router.post('/', isAuth, upload.single('image'), ImageController.postImage)
 
 module.exports = router
