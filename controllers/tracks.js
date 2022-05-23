@@ -3,7 +3,6 @@ const User = require('../models/user')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
-const { map } = require('../server')
 
 const track = {
   getTrackList: handleErrorAsync(async (req, res) => {
