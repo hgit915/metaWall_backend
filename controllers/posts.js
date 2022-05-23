@@ -91,7 +91,7 @@ const post = {
       .skip((currentPageIndex - 1) * currentPageSize)
       .limit(currentPageSize)
 
-    const msg = result.length == 0 ? '查無相關貼文' : '200'
+    const msg = result.length === 0 ? '查無相關貼文' : '200'
     successHandler(res, msg, result)
   }),
 
