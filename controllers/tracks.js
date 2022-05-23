@@ -1,4 +1,5 @@
 const Track = require('../models/track')
+const User = require('../models/user')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
@@ -38,13 +39,17 @@ const track = {
     if (trackId === req.user.id) {
       return next(appError(401, '您無法追蹤自己', next))
     }
+    // 被追蹤者是否為 metaWall 的使用者
+    const checkUser = await User.find({
+      _id: trackId
+    })
+    if (checkUser.length === 0) return next(appError(401, 'metaWall 的世界沒有這個用戶', next))
 
     // 確認無重複追蹤
     const checkTracker = await Track.find({
       user: req.user.id,
       tracking: trackId
     })
-
     if (checkTracker.length > 0) return next(appError(401, '您已追蹤該用戶', next))
 
     const result = await Track.create({
