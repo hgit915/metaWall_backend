@@ -3,7 +3,7 @@ const appError = require('../service/appError')
 const User = require('../models/user')
 const isAuth = async (req, res, next) => {
   if (req.isAuthenticated()) {
-    return res.redirect('/users/sign_in')
+    return res.redirect('/sign_in')
   }
   // 確認 token 是否存在
   let token
