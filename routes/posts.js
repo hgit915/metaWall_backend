@@ -15,7 +15,7 @@ router.delete('/:id', isAuth, PostController.deletePost)
 // comment評論
 router.get('/comments', isAuth, CommentController.getAllComment) // 測試用
 router.post('/:postId/comment', isAuth, CommentController.addComment)
-router.patch('/:postId/comment', isAuth, CommentController.editComment)
+router.patch('/:postId/comment/:commentId', isAuth, CommentController.editComment)
 router.delete('/:postId/comment/:commentId', isAuth, CommentController.deleteComment)
 
 // likes按讚
