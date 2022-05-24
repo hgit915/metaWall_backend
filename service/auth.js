@@ -2,9 +2,7 @@ const jwt = require('jsonwebtoken')
 const appError = require('../service/appError')
 const User = require('../models/user')
 const isAuth = async (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return res.redirect('/users/sign_in')
-  }
+  if (req.isAuthenticated()) return next()
   // 確認 token 是否存在
   let token
   if (
