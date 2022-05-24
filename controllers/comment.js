@@ -29,18 +29,24 @@ const comment = {
 
   editComment: handleErrorAsync(async (req, res, next) => {
     const { content } = req.body
-    const id = req.params.postId
+    const { postId, commentId } = req.params
 
     if (!content) {
       return appError(400, '留言內容不可為空', next)
     }
 
-    const result = await Comment.findByIdAndUpdate(id, {
+    const checkComment = await Post.find({
+      _id: postId,
+      comments: commentId
+    })
+    if (checkComment.length === 0) return next(appError(401, '該篇貼文無此留言，請重新確認。', next))
+
+    const result = await Comment.findByIdAndUpdate(commentId, {
       content,
       updatedAt: Date.now()
     }, { new: true })
 
-    return successHandler(res, 'update comments success', result)
+    return successHandler(res, '更新留言成功', result)
   }),
 
   deleteComment: handleErrorAsync(async (req, res, next) => {

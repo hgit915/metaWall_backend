@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8f8332c1-0a91-41d8-b46d-97c2a094907b",
+		"_postman_id": "c6c1dfc0-9a32-44b2-9781-fb3a006bd0d1",
 		"name": "小組用 (測試帳號test@gmail.com)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7795449"
@@ -459,6 +459,35 @@
 							"path": [
 								"posts",
 								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editComment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"gooooooooo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/6285245c841073c307407b9d/comment/628cc0a0668d2d3887031219",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"6285245c841073c307407b9d",
+								"comment",
+								"628cc0a0668d2d3887031219"
 							]
 						}
 					},
