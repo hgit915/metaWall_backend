@@ -55,6 +55,15 @@ app.use(passport.session())
 
 require('./config/passport')(passport)
 
+// socket.io
+const io = require('socket.io')()
+app.io = io
+require('./utils/socketServer.js')(io)
+app.use(function (req, res, next) {
+  res.io = io
+  next()
+})
+
 app.use(usersRouter)
 app.use('/auth', authRouter)
 app.use('/images', imagesRouter)

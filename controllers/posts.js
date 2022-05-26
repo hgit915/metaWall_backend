@@ -18,12 +18,20 @@ const post = {
   getManyPost: handleErrorAsync(async (req, res) => {
     // 除了q傳遞搜尋字串之外，其他值皆屬排序
     const {
-      q, likes, comments, createdAt = defaultSort,
-      pageIndex, pageSize
+      q,
+      likes,
+      comments,
+      createdAt = defaultSort,
+      pageIndex,
+      pageSize
     } = req.query
 
-    const currentPageIndex = isPositiveInteger(pageIndex) ? pageIndex : defaultPageIndex
-    const currentPageSize = isPositiveInteger(pageSize) ? pageIndex : defaultPageSize
+    const currentPageIndex = isPositiveInteger(pageIndex)
+      ? pageIndex
+      : defaultPageIndex
+    const currentPageSize = isPositiveInteger(pageSize)
+      ? pageIndex
+      : defaultPageSize
 
     const filterByQuery = q ? { content: new RegExp(`${q}`, 'i') } : {}
     const filterBySort = {}
@@ -58,14 +66,24 @@ const post = {
   getUserPost: handleErrorAsync(async (req, res, next) => {
     const user = req.params.userId
     const {
-      q, likes, comments, createdAt = defaultSort,
-      pageIndex, pageSize
+      q,
+      likes,
+      comments,
+      createdAt = defaultSort,
+      pageIndex,
+      pageSize
     } = req.query
 
-    const currentPageIndex = isPositiveInteger(pageIndex) ? pageIndex : defaultPageIndex
-    const currentPageSize = isPositiveInteger(pageSize) ? pageIndex : defaultPageSize
+    const currentPageIndex = isPositiveInteger(pageIndex)
+      ? pageIndex
+      : defaultPageIndex
+    const currentPageSize = isPositiveInteger(pageSize)
+      ? pageIndex
+      : defaultPageSize
 
-    const filterByQuery = q ? { user, content: new RegExp(`${q}`, 'i') } : { user }
+    const filterByQuery = q
+      ? { user, content: new RegExp(`${q}`, 'i') }
+      : { user }
     const filterBySort = {}
 
     if (checkValueCanSort(likes)) filterBySort.likes = likes
@@ -84,7 +102,8 @@ const post = {
           path: 'user',
           select: 'name photo'
         }
-      }).populate({
+      })
+      .populate({
         path: 'likes'
       })
       .sort(filterBySort)
@@ -103,6 +122,7 @@ const post = {
     // 處理沒有圖片的提交
     if (!image) {
       const result = await Post.create({ content, user: req.user._id })
+      res.io.emit('newPost', result)
       return successHandler(res, 200, result)
     }
 
@@ -112,6 +132,7 @@ const post = {
       image: isImageInS3 ? image : '',
       user: req.user._id
     })
+    res.io.emit('newPost', result)
     return successHandler(res, 200, result)
   }),
 
@@ -126,10 +147,14 @@ const post = {
     const post = await Post.findByIdAndUpdate(id, { content }, { new: true })
     if (!post) return appError(400, '貼文不存在', next)
 
-    const result = await Post.findByIdAndUpdate(id, {
-      content,
-      updatedAt: Date.now()
-    }, { new: true })
+    const result = await Post.findByIdAndUpdate(
+      id,
+      {
+        content,
+        updatedAt: Date.now()
+      },
+      { new: true }
+    )
 
     return successHandler(res, 'update comment success', result)
   }),
@@ -138,9 +163,13 @@ const post = {
     const deletePost = await Post.findByIdAndDelete(req.params.id)
     if (!deletePost) return appError(404, '刪除錯誤，沒有id ?', next)
 
-    if (!deletePost.comments?.length) return successHandler(res, '刪除成功', deletePost)
+    if (!deletePost.comments?.length) {
+      return successHandler(res, '刪除成功', deletePost)
+    }
 
-    const commentIdList = deletePost.comments.map(objectId => parseObjectId(objectId))
+    const commentIdList = deletePost.comments.map((objectId) =>
+      parseObjectId(objectId)
+    )
     const deleteComment = await Comment.deleteMany({
       id: {
         $in: commentIdList
