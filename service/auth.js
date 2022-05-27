@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const appError = require('../service/appError')
 const User = require('../models/user')
 const isAuth = async (req, res, next) => {
-  if (req.isAuthenticated()) return next()
   // 確認 token 是否存在
   let token
   if (
@@ -47,7 +46,16 @@ const generateSendJWT = (user, statusCode, res) => {
   })
 }
 
+const generateUrlJWT = (res, user) => {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_DAY
+  })
+  user.password = undefined
+  res.cookie('wallToken', token)
+  res.redirect(`${process.env.FONTEND_URL}/#/wall`)
+}
 module.exports = {
   isAuth,
-  generateSendJWT
+  generateSendJWT,
+  generateUrlJWT
 }
