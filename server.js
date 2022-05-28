@@ -80,4 +80,5 @@ app.use((err, req, res, next) => {
   }
   resError.resErrorProd(err, res)
 })
+
 module.exports = app
