@@ -40,9 +40,10 @@ const comment = {
       (comment) => comment.user._id
     )
     res.io.emit('newComment', {
-      id: newComment._id,
+      _id: newComment._id,
+      user: newComment.user,
       postId: socketData._id,
-      user: socketData.user,
+      postUserId: socketData.user,
       commentUserIds
     })
 
