@@ -23,7 +23,8 @@ const post = {
       comments,
       createdAt = defaultSort,
       pageIndex,
-      pageSize
+      pageSize,
+      _id
     } = req.query
 
     const currentPageIndex = isPositiveInteger(pageIndex)
@@ -33,7 +34,14 @@ const post = {
       ? pageIndex
       : defaultPageSize
 
-    const filterByQuery = q ? { content: new RegExp(`${q}`, 'i') } : {}
+    const filterByQuery = {}
+    if (q) {
+      filterByQuery.content = new RegExp(`${q}`, 'i')
+    }
+    if (_id) {
+      const ObjectId = require('mongoose').Types.ObjectId
+      filterByQuery._id = ObjectId(_id)
+    }
     const filterBySort = {}
 
     if (checkValueCanSort(likes)) filterBySort.likes = likes
