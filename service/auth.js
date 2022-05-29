@@ -54,10 +54,7 @@ const generateUrlJWT = (res, user) => {
     expiresIn: process.env.JWT_EXPIRES_DAY
   })
   user.password = undefined
-  res.cookie('wallToken', token, {
-    domain: '.tartartuna.github.io',
-    sameSite: 'none'
-  })
+  res.cookie('wallToken', token)
   console.log('---cookie start')
   console.log(res.cookie())
   console.log('---cookie end')
