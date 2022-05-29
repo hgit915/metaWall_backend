@@ -51,7 +51,9 @@ const generateUrlJWT = (res, user) => {
     expiresIn: process.env.JWT_EXPIRES_DAY
   })
   user.password = undefined
-  res.cookie('wallToken', token)
+  res.cookie('wallToken', token, {
+    domain: '.tartartuna.github.io'
+  })
   res.redirect(`${process.env.FONTEND_URL}/wall`)
 }
 module.exports = {
