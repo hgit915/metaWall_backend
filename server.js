@@ -12,7 +12,7 @@ const authRouter = require('./routes/auths')
 const postsRouter = require('./routes/posts')
 const trackRouter = require('./routes/tracks')
 const imagesRouter = require('./routes/images')
-const addImgRouter = require('./routes/addImg');
+const chatImgRouter = require('./routes/chatImg')
 const appError = require('./service/appError')
 const swaggerUI = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
@@ -39,7 +39,7 @@ const app = express()
 const io = require('socket.io')()
 app.io = io
 require('./socket/index')(io)
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.io = io
   next()
 })
@@ -69,7 +69,7 @@ app.use('/images', imagesRouter)
 app.use('/posts', postsRouter)
 app.use('/tracks', trackRouter)
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
-app.use('/addImg', addImgRouter);
+app.use('/chatImg', chatImgRouter)
 
 app.use((_req, res, next) => {
   appError(404, '找不到路徑', next)
