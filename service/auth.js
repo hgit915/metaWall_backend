@@ -52,7 +52,7 @@ const generateUrlJWT = (res, user) => {
   })
   user.password = undefined
   res.cookie('wallToken', token, {
-    domain: '.tartartuna.github.io'
+    domain: 'tartartuna.github.io'
   })
   res.redirect(`${process.env.FONTEND_URL}/wall`)
 }
