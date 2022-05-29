@@ -52,7 +52,7 @@ const generateUrlJWT = (res, user) => {
   })
   user.password = undefined
   res.cookie('wallToken', token)
-  res.redirect(`${process.env.FONTEND_URL}/wall`)
+  res.redirect(process.env.FONTEND_URL)
 }
 module.exports = {
   isAuth,
