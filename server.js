@@ -12,6 +12,7 @@ const authRouter = require('./routes/auths')
 const postsRouter = require('./routes/posts')
 const trackRouter = require('./routes/tracks')
 const imagesRouter = require('./routes/images')
+const addImgRouter = require('./routes/addImg');
 const appError = require('./service/appError')
 const swaggerUI = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
@@ -35,6 +36,13 @@ mongoose
 
 const app = express()
 
+const io = require('socket.io')()
+app.io = io
+require('./socket/index')(io)
+app.use(function(req, res, next){
+  res.io = io
+  next()
+})
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -61,6 +69,7 @@ app.use('/images', imagesRouter)
 app.use('/posts', postsRouter)
 app.use('/tracks', trackRouter)
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile))
+app.use('/addImg', addImgRouter);
 
 app.use((_req, res, next) => {
   appError(404, '找不到路徑', next)
