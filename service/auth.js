@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const appError = require('../service/appError')
 const User = require('../models/user')
 const isAuth = async (req, res, next) => {
-  if (req.isAuthenticated()) return next()
   // 確認 token 是否存在
   let token
   if (
@@ -17,19 +16,22 @@ const isAuth = async (req, res, next) => {
   }
 
   // 驗證 token 正確性
-  const decoded = await new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(payload)
-      }
+  try {
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(payload)
+        }
+      })
     })
-  })
-  const currentUser = await User.findById(decoded.id)
-
-  req.user = currentUser
-  next()
+    const currentUser = await User.findById(decoded.id)
+    req.user = currentUser
+    next()
+  } catch (error) {
+    return appError(404, error.message, next)
+  }
 }
 const generateSendJWT = (user, statusCode, res) => {
   // 產生 JWT token
@@ -47,7 +49,19 @@ const generateSendJWT = (user, statusCode, res) => {
   })
 }
 
+const generateUrlJWT = (res, user) => {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_DAY
+  })
+  user.password = undefined
+  res.cookie('wallToken', token)
+  console.log('---cookie start')
+  console.log(res.cookie())
+  console.log('---cookie end')
+  res.redirect(`${process.env.FONTEND_URL}/`)
+}
 module.exports = {
   isAuth,
-  generateSendJWT
+  generateSendJWT,
+  generateUrlJWT
 }
