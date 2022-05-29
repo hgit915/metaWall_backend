@@ -44,9 +44,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(
   session({
     secret: process.env.JWT_SECRET, // secret: 定義一組屬於你的字串做為私鑰
-    cookie: {
-      domain: '.tartartuna.github.io'
-    },
     resave: false,
     saveUninitialized: false
   })
