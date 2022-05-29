@@ -45,11 +45,7 @@ app.use(
   session({
     secret: process.env.JWT_SECRET, // secret: 定義一組屬於你的字串做為私鑰
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-      domain: '.tartartuna.github.io',
-      sameSite: 'none'
-    }
+    saveUninitialized: false
   })
 )
 
