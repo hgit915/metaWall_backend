@@ -56,7 +56,7 @@ const generateUrlJWT = (res, user) => {
   user.password = undefined
   res.cookie('wallToken', token, {
     domain: '.tartartuna.github.io',
-    sameSite: 'None'
+    sameSite: 'none'
   })
   console.log('---cookie start')
   console.log(res.cookie())
