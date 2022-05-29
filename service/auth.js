@@ -16,19 +16,22 @@ const isAuth = async (req, res, next) => {
   }
 
   // 驗證 token 正確性
-  const decoded = await new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(payload)
-      }
+  try {
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(payload)
+        }
+      })
     })
-  })
-  const currentUser = await User.findById(decoded.id)
-
-  req.user = currentUser
-  next()
+    const currentUser = await User.findById(decoded.id)
+    req.user = currentUser
+    next()
+  } catch (error) {
+    return appError(404, error.message, next)
+  }
 }
 const generateSendJWT = (user, statusCode, res) => {
   // 產生 JWT token
