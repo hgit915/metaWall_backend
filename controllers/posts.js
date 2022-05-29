@@ -156,7 +156,6 @@ const post = {
   getPost: handleErrorAsync(async (req, res, next) => {
     const id = req.params.postId
     const post = await Post.findById(id)
-    console.log(post)
     if (!post) return appError(400, '貼文不存在', next)
 
     const result = await Post.findById(id)
