@@ -8,6 +8,7 @@ const { isAuth } = require('../service/auth')
 // post貼文
 router.get('/', isAuth, PostController.getManyPost)
 router.get('/:userId/user', isAuth, PostController.getUserPost)
+router.get('/:postId', isAuth, PostController.getPost)
 router.post('/', isAuth, PostController.addPost)
 router.patch('/:postId', isAuth, PostController.editPost)
 router.delete('/:id', isAuth, PostController.deletePost)
