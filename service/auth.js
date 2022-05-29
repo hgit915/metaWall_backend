@@ -58,7 +58,7 @@ const generateUrlJWT = (res, user) => {
     domain: 'tartartuna.github.io'
   })
   console.log('---cookie')
-  console.log(res.cookie)
+  console.log(res.cookie())
   console.log('---cookie')
   res.redirect(`${process.env.FONTEND_URL}/`)
 }
