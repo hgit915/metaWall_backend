@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c6c1dfc0-9a32-44b2-9781-fb3a006bd0d1",
+		"_postman_id": "6c4d4711-aa31-40b7-bdaf-527f2442cb09",
 		"name": "小組用 (測試帳號test@gmail.com)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "7795449"
+		"_exporter_id": "13281231"
 	},
 	"item": [
 		{
@@ -244,12 +244,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/users/sign_in",
+							"raw": "{{url}}/sign_in",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"users",
 								"sign_in"
 							]
 						}
@@ -271,12 +270,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/users/sign_up",
+							"raw": "{{url}}/sign_up",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"users",
 								"sign_up"
 							]
 						}
@@ -660,7 +658,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODViMWM2MjFhMWU4YjA2M2Y0NDU1OCIsImlhdCI6MTY1MzAzNDYzOCwiZXhwIjoxNjUzNjM5NDM4fQ.jlsd6WOqnM6bqTWCzr5h6HgPCD65PakOj9LlL5bFPW4",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODViMWM2MjFhMWU4YjA2M2Y0NDU1OCIsImlhdCI6MTY1MzgxMjExOSwiZXhwIjoxNjU0NDE2OTE5fQ.hMOY-_nbIsbMav91gRlm2gz_wkHoOlS3lWWOtuIryR4",
 				"type": "string"
 			}
 		]
