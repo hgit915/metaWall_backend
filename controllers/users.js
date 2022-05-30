@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
+const Track = require('../models/track')
 const appError = require('../service/appError')
 const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
@@ -73,7 +74,28 @@ const users = {
     const userData = await User.findById(req.user._id)
     successHandler(res, '取得用戶資料成功', userData)
   }),
+  getPeopleInfo: handleErrorAsync(async (req, res, next) => {
+    const id = req.params.userId
+    const userData = await User.findById(id)
 
+    if (!userData) return appError(400, '該用戶不存在', next)
+
+    // 被追蹤人數
+    const tracks = await Track.find({
+      tracking: {
+        _id: id
+      }
+    }).count()
+
+    const { _id, name, photo } = userData
+    const result = {
+      _id,
+      name,
+      photo,
+      trackNum: tracks
+    }
+    successHandler(res, '取得特定用戶資料成功', result)
+  }),
   updateUserInfo: handleErrorAsync(async (req, res, next) => {
     const { name, gender, photo } = req.body
 
