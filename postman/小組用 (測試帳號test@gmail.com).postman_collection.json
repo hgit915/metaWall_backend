@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3d938575-9b4b-419d-9081-baa34c23d62e",
+		"_postman_id": "352147ed-c2f5-4117-9dec-c98d06dc09d5",
 		"name": "小組用 (測試帳號test@gmail.com)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7795449"
@@ -163,17 +163,18 @@
 					"response": []
 				},
 				{
-					"name": "getPost",
+					"name": "getSinglePost",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/posts/6292f35c6254316ae1d7cff8",
+							"raw": "{{url}}/posts/single/6292f35c6254316ae1d7cff8",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"posts",
+								"single",
 								"6292f35c6254316ae1d7cff8"
 							]
 						}
