@@ -25,7 +25,7 @@ io.listen(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
-    credentials: true
+    credential: true
   }
 })
 

@@ -54,11 +54,7 @@ const generateUrlJWT = (res, user) => {
     expiresIn: process.env.JWT_EXPIRES_DAY
   })
   user.password = undefined
-  res.cookie('wallToken', token)
-  console.log('---cookie start')
-  console.log(res.cookie())
-  console.log('---cookie end')
-  res.redirect(`${process.env.FONTEND_URL}/`)
+  res.redirect(`${process.env.FONTEND_URL}?token=${token}`)
 }
 module.exports = {
   isAuth,

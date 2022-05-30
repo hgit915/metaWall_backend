@@ -11,6 +11,7 @@ router.post('/sign_in', UsersControllers.signIn)
 router.patch('/users/password', isAuth, UsersControllers.updatePassword)
 router.patch('/users/me', isAuth, UsersControllers.updateUserInfo)
 router.get('/users/me', isAuth, UsersControllers.getUserInfo)
+router.get('/users/:userId', isAuth, UsersControllers.getPeopleInfo)
 
 // 測試方便用
 router.get('/users/', isAuth, UsersControllers.getAllUser)

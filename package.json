@@ -33,6 +33,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "sizeof": "^1.0.0",
+    "socket.io": "^4.5.1",
     "swagger-autogen": "^2.5.10",
     "swagger-ui-express": "^4.3.0",
     "validator": "^13.7.0",

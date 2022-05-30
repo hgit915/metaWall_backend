@@ -188,6 +188,31 @@ const post = {
       deletePost,
       deleteComment
     })
+  }),
+
+  getPost: handleErrorAsync(async (req, res, next) => {
+    const id = req.params.postId
+    const post = await Post.findById(id)
+    if (!post) return appError(400, '貼文不存在', next)
+
+    const result = await Post.findById(id)
+      .populate({
+        path: 'user',
+        select: 'name photo'
+      })
+      .populate({
+        path: 'comments',
+        select: 'user content createdAt',
+        populate: {
+          path: 'user',
+          select: 'name photo'
+        }
+      })
+      .populate({
+        path: 'likes'
+      })
+
+    return successHandler(res, 200, result)
   })
 }
 
