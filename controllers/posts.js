@@ -31,7 +31,7 @@ const post = {
       ? pageIndex
       : defaultPageIndex
     const currentPageSize = isPositiveInteger(pageSize)
-      ? pageIndex
+      ? pageSize
       : defaultPageSize
 
     const filterByQuery = {}
