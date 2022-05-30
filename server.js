@@ -63,7 +63,6 @@ app.use(passport.session())
 
 require('./config/passport')(passport)
 
-
 app.use(usersRouter)
 app.use('/auth', authRouter)
 app.use('/images', imagesRouter)
