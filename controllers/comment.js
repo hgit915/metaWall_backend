@@ -18,11 +18,34 @@ const comment = {
       content
     })
 
-    const result = await Post.findByIdAndUpdate(postId, {
-      $push: {
-        comments: newComment._id
+    const result = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: {
+          comments: newComment._id
+        }
+      },
+      { new: true }
+    )
+    // socket
+    const socketData = await Post.findById(postId).populate({
+      path: 'comments',
+      select: 'user',
+      populate: {
+        path: 'user',
+        select: '_id'
       }
-    }, { new: true })
+    })
+    const commentUserIds = socketData.comments.map(
+      (comment) => comment.user._id
+    )
+    res.io.emit('newComment', {
+      _id: newComment._id,
+      user: newComment.user,
+      postId: socketData._id,
+      postUserId: socketData.user,
+      commentUserIds
+    })
 
     successHandler(res, '成功上傳留言', result)
   }),
@@ -39,12 +62,18 @@ const comment = {
       _id: postId,
       comments: commentId
     })
-    if (checkComment.length === 0) return next(appError(401, '該篇貼文無此留言，請重新確認。', next))
+    if (checkComment.length === 0) {
+      return next(appError(401, '該篇貼文無此留言，請重新確認。', next))
+    }
 
-    const result = await Comment.findByIdAndUpdate(commentId, {
-      content,
-      updatedAt: Date.now()
-    }, { new: true })
+    const result = await Comment.findByIdAndUpdate(
+      commentId,
+      {
+        content,
+        updatedAt: Date.now()
+      },
+      { new: true }
+    )
 
     return successHandler(res, '更新留言成功', result)
   }),
@@ -54,11 +83,15 @@ const comment = {
 
     await Comment.findByIdAndDelete(commentId)
 
-    const updatePost = await Post.findByIdAndUpdate(postId, {
-      $pull: {
-        comments: commentId
-      }
-    }, { new: true })
+    const updatePost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $pull: {
+          comments: commentId
+        }
+      },
+      { new: true }
+    )
 
     successHandler(res, '刪除成功', updatePost)
   }),
