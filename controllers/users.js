@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 const Track = require('../models/track')
 const appError = require('../service/appError')
-const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
 const RequestBlocker = require('../service/blocker/RequestBlocker')
 const { generateSendJWT } = require('../service/auth')
@@ -19,7 +18,7 @@ const {
 } = require('../service/blocker/rule/user-rule')
 
 const users = {
-  signUp: handleErrorAsync(async (req, res, next) => {
+  signUp: async (req, res, next) => {
     const errorData = await new RequestBlocker(req)
       .setBlocker(
         haveNameEmailPassword,
@@ -45,9 +44,9 @@ const users = {
     })
 
     generateSendJWT(newUser, 201, res)
-  }),
+  },
 
-  signIn: handleErrorAsync(async (req, res, next) => {
+  signIn: async (req, res, next) => {
     const { email, password } = req.body
     if (!email || !password) {
       return appError(400, '帳號密碼不可為空', next)
@@ -58,23 +57,24 @@ const users = {
       return appError(400, '帳號或密碼錯誤，請重新輸入！', next)
     }
     generateSendJWT(user, 200, res)
-  }),
+  },
 
   getAllUser: async (req, res, next) => {
     const users = await User.find()
     successHandler(res, 'all user', users)
   },
 
-  deleteUser: handleErrorAsync(async (req, res, next) => {
+  deleteUser: async (req, res, next) => {
     const deleteUser = await User.findByIdAndDelete(req.params.id)
     successHandler(res, '刪除使用者成功', deleteUser)
-  }),
+  },
 
-  getUserInfo: handleErrorAsync(async (req, res, next) => {
+  getUserInfo: async (req, res, next) => {
     const userData = await User.findById(req.user._id)
     successHandler(res, '取得用戶資料成功', userData)
-  }),
-  getPeopleInfo: handleErrorAsync(async (req, res, next) => {
+  },
+
+  getPeopleInfo: async (req, res, next) => {
     const id = req.params.userId
     const userData = await User.findById(id)
 
@@ -97,8 +97,9 @@ const users = {
       trackNum: tracks
     }
     successHandler(res, '取得特定用戶資料成功', result)
-  }),
-  updateUserInfo: handleErrorAsync(async (req, res, next) => {
+  },
+
+  updateUserInfo: async (req, res, next) => {
     const { name, gender, photo } = req.body
 
     const errorData = new RequestBlocker(req)
@@ -138,9 +139,9 @@ const users = {
       { new: true }
     )
     return successHandler(res, '個人資訊更新成功', updateUser)
-  }),
+  },
 
-  updatePassword: handleErrorAsync(async (req, res, next) => {
+  updatePassword: async (req, res, next) => {
     const { confirmPassword, password } = req.body
 
     if (!confirmPassword || !password) {
@@ -161,7 +162,7 @@ const users = {
     }, { new: true })
 
     successHandler(res, '更新密碼成功', updateUser)
-  })
+  }
 }
 
 module.exports = users

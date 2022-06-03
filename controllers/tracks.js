@@ -2,10 +2,9 @@ const Track = require('../models/track')
 const User = require('../models/user')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
-const handleErrorAsync = require('../service/handleErrorAsync')
 
 const track = {
-  getTrackList: handleErrorAsync(async (req, res) => {
+  getTrackList: async (req, res) => {
     const tracks = await Track.find({
       user: req.user.id
     })
@@ -31,9 +30,9 @@ const track = {
       tracking
     }
     successHandler(res, '200', result)
-  }),
+  },
 
-  addTrack: handleErrorAsync(async (req, res, next) => {
+  addTrack: async (req, res, next) => {
     const { trackId } = req.params
     if (trackId === req.user.id) {
       return next(appError(401, '您無法追蹤自己', next))
@@ -59,9 +58,9 @@ const track = {
     })
 
     return successHandler(res, '追蹤成功', result)
-  }),
+  },
 
-  deleteTrack: handleErrorAsync(async (req, res, next) => {
+  deleteTrack: async (req, res, next) => {
     const { trackId } = req.params
     if (trackId === req.user.id) {
       return next(appError(401, '您無法取消追蹤自己', next))
@@ -77,7 +76,7 @@ const track = {
     }
 
     return successHandler(res, '取消追蹤成功', deleteTracker)
-  })
+  }
 
 }
 

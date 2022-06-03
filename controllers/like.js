@@ -1,5 +1,4 @@
 const Post = require('../models/post')
-const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
 const appError = require('../service/appError')
@@ -9,7 +8,7 @@ const defaultPageSize = 10
 const defaultPageIndex = 1
 
 const like = {
-  getLikePost: handleErrorAsync(async (req, res, next) => {
+  getLikePost: async (req, res, next) => {
     const { pageIndex, pageSize } = req.query
 
     const currentPageIndex = isPositiveInteger(pageIndex) ? pageIndex : defaultPageIndex
@@ -30,9 +29,9 @@ const like = {
       .limit(currentPageSize)
 
     successHandler(res, 200, posts)
-  }),
+  },
 
-  like: handleErrorAsync(async (req, res, next) => {
+  like: async (req, res, next) => {
     const { postId } = req.params
 
     const filter = {
@@ -51,9 +50,9 @@ const like = {
     }
 
     successHandler(res, '成功更新讚數', updatePost)
-  }),
+  },
 
-  unLike: handleErrorAsync(async (req, res, next) => {
+  unLike: async (req, res, next) => {
     const { postId } = req.params
 
     const filter = {
@@ -72,7 +71,7 @@ const like = {
     }
 
     successHandler(res, '成功移除按讚', updatePost)
-  })
+  }
 }
 
 module.exports = like
