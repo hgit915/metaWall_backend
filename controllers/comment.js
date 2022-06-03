@@ -1,11 +1,10 @@
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const appError = require('../service/appError')
-const handleErrorAsync = require('../service/handleErrorAsync')
 const successHandler = require('../service/handleSuccess')
 
 const comment = {
-  addComment: handleErrorAsync(async (req, res, next) => {
+  addComment: async (req, res, next) => {
     const { postId } = req.params
     const { content } = req.body
 
@@ -50,9 +49,9 @@ const comment = {
     })
 
     successHandler(res, '成功上傳留言', result)
-  }),
+  },
 
-  editComment: handleErrorAsync(async (req, res, next) => {
+  editComment: async (req, res, next) => {
     const { content } = req.body
     const { postId, commentId } = req.params
 
@@ -78,9 +77,9 @@ const comment = {
     )
 
     return successHandler(res, '更新留言成功', result)
-  }),
+  },
 
-  deleteComment: handleErrorAsync(async (req, res, next) => {
+  deleteComment: async (req, res, next) => {
     const { postId, commentId } = req.params
 
     await Comment.findByIdAndDelete(commentId)
@@ -96,7 +95,7 @@ const comment = {
     )
 
     successHandler(res, '刪除成功', updatePost)
-  }),
+  },
 
   // 測試用
   getAllComment: async (req, res, next) => {
