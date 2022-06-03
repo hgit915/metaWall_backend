@@ -2,7 +2,6 @@ const { Readable } = require('stream')
 const { uploadFile, getFileById } = require('../service/s3/s3')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
-const handleErrorAsync = require('../service/handleErrorAsync')
 const RequestBlocker = require('../service/blocker/RequestBlocker')
 const {
   isFileExist,
@@ -51,6 +50,6 @@ async function postImage (req, res, next) {
 }
 
 module.exports = {
-  getImage: handleErrorAsync(getImage),
-  postImage: handleErrorAsync(postImage)
+  getImage,
+  postImage
 }

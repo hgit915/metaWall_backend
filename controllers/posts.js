@@ -2,7 +2,6 @@ const Post = require('../models/post')
 const Comment = require('../models/comment')
 const successHandler = require('../service/handleSuccess')
 const appError = require('../service/appError')
-const handleErrorAsync = require('../service/handleErrorAsync')
 const checkValueCanSort = require('../helpers/checkSort')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
 const parseObjectId = require('../helpers/parseObjectId')
@@ -15,7 +14,7 @@ const defaultPageIndex = 1
 const defaultSort = 'desc'
 
 const post = {
-  getManyPost: handleErrorAsync(async (req, res) => {
+  getManyPost: async (req, res) => {
     // 除了q傳遞搜尋字串之外，其他值皆屬排序
     const {
       q,
@@ -74,9 +73,9 @@ const post = {
       .limit(currentPageSize)
 
     successHandler(res, 200, posts)
-  }),
+  },
 
-  getUserPost: handleErrorAsync(async (req, res, next) => {
+  getUserPost: async (req, res, next) => {
     const user = req.params.userId
     const {
       q,
@@ -125,9 +124,9 @@ const post = {
 
     const msg = result.length === 0 ? '查無相關貼文' : '200'
     successHandler(res, msg, result)
-  }),
+  },
 
-  addPost: handleErrorAsync(async (req, res, next) => {
+  addPost: async (req, res, next) => {
     // image是傳id值
     const { content, image } = req.body
     if (!content) return appError(404, '請輸入必填欄位', next)
@@ -147,9 +146,9 @@ const post = {
     })
     res.io.emit('newPost', result)
     return successHandler(res, 200, result)
-  }),
+  },
 
-  editPost: handleErrorAsync(async (req, res, next) => {
+  editPost: async (req, res, next) => {
     const { content } = req.body
     const id = req.params.postId
 
@@ -172,9 +171,9 @@ const post = {
     )
 
     return successHandler(res, 'update comment success', result)
-  }),
+  },
 
-  deletePost: handleErrorAsync(async (req, res, next) => {
+  deletePost: async (req, res, next) => {
     const deletePost = await Post.findByIdAndDelete(req.params.id)
     if (!deletePost) {
       return appError(404, '刪除錯誤，沒有id ?', next)
@@ -197,9 +196,9 @@ const post = {
       deletePost,
       deleteComment
     })
-  }),
+  },
 
-  getPost: handleErrorAsync(async (req, res, next) => {
+  getPost: async (req, res, next) => {
     const id = req.params.postId
 
     const post = await Post.findById(id)
@@ -225,7 +224,7 @@ const post = {
       })
 
     return successHandler(res, 200, result)
-  })
+  }
 }
 
 module.exports = post
