@@ -7,7 +7,6 @@ const checkValueCanSort = require('../helpers/checkSort')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
 const parseObjectId = require('../helpers/parseObjectId')
 const { getFileInfoById } = require('../service/s3/s3')
-const { postImage } = require('./images')
 
 /** 預設一頁幾筆資料 */
 const defaultPageSize = 10
@@ -145,7 +144,7 @@ const post = {
   }),
 
   editPost: handleErrorAsync(async (req, res, next) => {
-    const { content, image } = req.body
+    const { content } = req.body
     const id = req.params.postId
 
     if (!content) {
