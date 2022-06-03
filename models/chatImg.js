@@ -19,6 +19,6 @@ const chatImgSchema = new mongoose.Schema(
     new: true
   }
 )
-const chatImg = mongoose.model('chatImg', chatImgSchema)
+const chatImg = mongoose.model('ChatImg', chatImgSchema)
 
 module.exports = chatImg

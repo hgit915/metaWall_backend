@@ -7,7 +7,7 @@ const checkValueCanSort = require('../helpers/checkSort')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
 const parseObjectId = require('../helpers/parseObjectId')
 const { getFileInfoById } = require('../service/s3/s3')
-const { postImage } = require('./images')
+const ObjectId = require('mongoose').Types.ObjectId
 
 /** 預設一頁幾筆資料 */
 const defaultPageSize = 10
@@ -39,14 +39,19 @@ const post = {
       filterByQuery.content = new RegExp(`${q}`, 'i')
     }
     if (_id) {
-      const ObjectId = require('mongoose').Types.ObjectId
       filterByQuery._id = ObjectId(_id)
     }
-    const filterBySort = {}
 
-    if (checkValueCanSort(likes)) filterBySort.likes = likes
-    if (checkValueCanSort(comments)) filterBySort.comments = comments
-    if (checkValueCanSort(createdAt)) filterBySort.createdAt = createdAt
+    const filterBySort = {}
+    if (checkValueCanSort(likes)) {
+      filterBySort.likes = likes
+    }
+    if (checkValueCanSort(comments)) {
+      filterBySort.comments = comments
+    }
+    if (checkValueCanSort(createdAt)) {
+      filterBySort.createdAt = createdAt
+    }
 
     const posts = await Post.find(filterByQuery)
       .populate({
@@ -94,9 +99,9 @@ const post = {
       : { user }
     const filterBySort = {}
 
-    if (checkValueCanSort(likes)) filterBySort.likes = likes
-    if (checkValueCanSort(comments)) filterBySort.comments = comments
-    if (checkValueCanSort(createdAt)) filterBySort.createdAt = createdAt
+    if (checkValueCanSort(likes)) { filterBySort.likes = likes }
+    if (checkValueCanSort(comments)) { filterBySort.comments = comments }
+    if (checkValueCanSort(createdAt)) { filterBySort.createdAt = createdAt }
 
     const result = await Post.find(filterByQuery)
       .populate({
@@ -145,7 +150,7 @@ const post = {
   }),
 
   editPost: handleErrorAsync(async (req, res, next) => {
-    const { content, image } = req.body
+    const { content } = req.body
     const id = req.params.postId
 
     if (!content) {
@@ -153,7 +158,9 @@ const post = {
     }
 
     const post = await Post.findByIdAndUpdate(id, { content }, { new: true })
-    if (!post) return appError(400, '貼文不存在', next)
+    if (!post) {
+      return appError(400, '貼文不存在', next)
+    }
 
     const result = await Post.findByIdAndUpdate(
       id,
@@ -169,7 +176,9 @@ const post = {
 
   deletePost: handleErrorAsync(async (req, res, next) => {
     const deletePost = await Post.findByIdAndDelete(req.params.id)
-    if (!deletePost) return appError(404, '刪除錯誤，沒有id ?', next)
+    if (!deletePost) {
+      return appError(404, '刪除錯誤，沒有id ?', next)
+    }
 
     if (!deletePost.comments?.length) {
       return successHandler(res, '刪除成功', deletePost)
@@ -192,8 +201,11 @@ const post = {
 
   getPost: handleErrorAsync(async (req, res, next) => {
     const id = req.params.postId
+
     const post = await Post.findById(id)
-    if (!post) return appError(400, '貼文不存在', next)
+    if (!post) {
+      return appError(400, '貼文不存在', next)
+    }
 
     const result = await Post.findById(id)
       .populate({

@@ -40,14 +40,18 @@ const track = {
     }
     // 被追蹤者是否為 metaWall 的使用者
     const checkUser = await User.findById(trackId)
-    if (!checkUser) return next(appError(401, 'metaWall 的世界沒有這個用戶', next))
+    if (!checkUser) {
+      return next(appError(401, 'metaWall 的世界沒有這個用戶', next))
+    }
 
     // 確認無重複追蹤
     const checkTracker = await Track.find({
       user: req.user.id,
       tracking: trackId
     })
-    if (checkTracker.length > 0) return next(appError(401, '您已追蹤該用戶', next))
+    if (checkTracker.length > 0) {
+      return next(appError(401, '您已追蹤該用戶', next))
+    }
 
     const result = await Track.create({
       user: req.user.id,
@@ -68,7 +72,9 @@ const track = {
       tracking: trackId
     })
 
-    if (!deleteTracker || deleteTracker.length === 0) return next(appError(401, '追蹤列表無該用戶，無法刪除', next))
+    if (!deleteTracker || deleteTracker.length === 0) {
+      return next(appError(401, '追蹤列表無該用戶，無法刪除', next))
+    }
 
     return successHandler(res, '取消追蹤成功', deleteTracker)
   })
