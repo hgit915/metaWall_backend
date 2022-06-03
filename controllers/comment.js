@@ -9,7 +9,7 @@ const comment = {
     const { postId } = req.params
     const { content } = req.body
 
-    if (!content) return appError(404, '請輸入評論內容', next)
+    if (!content) { return appError(404, '請輸入評論內容', next) }
 
     await Post.findById(postId)
 

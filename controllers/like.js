@@ -46,7 +46,7 @@ const like = {
       }
     }, { new: true })
 
-    if (!updatePost) return appError(404, '按讚錯誤', next)
+    if (!updatePost) { return appError(404, '按讚錯誤', next) }
 
     successHandler(res, '成功更新讚數', updatePost)
   }),
@@ -65,7 +65,7 @@ const like = {
       }
     }, { new: true })
 
-    if (!updatePost) return appError(404, '取消讚錯誤', next)
+    if (!updatePost) { return appError(404, '取消讚錯誤', next) }
 
     successHandler(res, '成功移除按讚', updatePost)
   })

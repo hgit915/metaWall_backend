@@ -78,7 +78,9 @@ const users = {
     const id = req.params.userId
     const userData = await User.findById(id)
 
-    if (!userData) return appError(400, '該用戶不存在', next)
+    if (!userData) {
+      return appError(400, '該用戶不存在', next)
+    }
 
     // 被追蹤人數
     const tracks = await Track.find({
@@ -112,8 +114,8 @@ const users = {
     }
 
     const updateFilter = {}
-    if (name) updateFilter.name = name
-    if (gender) updateFilter.gender = gender
+    if (name) { updateFilter.name = name }
+    if (gender) { updateFilter.gender = gender }
 
     // 沒有photo的情況
     if (!photo) {
@@ -137,11 +139,11 @@ const users = {
   updatePassword: handleErrorAsync(async (req, res, next) => {
     const { confirmPassword, password } = req.body
 
-    if (!confirmPassword || !password) return appError(404, '請輸入必填欄位', next)
-    if (confirmPassword !== password) return appError(404, '密碼確認錯誤', next)
+    if (!confirmPassword || !password) { return appError(404, '請輸入必填欄位', next) }
+    if (confirmPassword !== password) { return appError(404, '密碼確認錯誤', next) }
 
     const checkPassword = isPasswordLengthGreaterThanEight(req)
-    if (checkPassword !== true) return appError(checkPassword.statusCode, checkPassword.errorMessage, next)
+    if (checkPassword !== true) { return appError(checkPassword.statusCode, checkPassword.errorMessage, next) }
 
     const newPassword = await bcrypt.hash(req.body.password, 12)
     const updateUser = await User.findByIdAndUpdate(req.user._id, {
