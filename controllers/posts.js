@@ -7,6 +7,7 @@ const checkValueCanSort = require('../helpers/checkSort')
 const isPositiveInteger = require('../helpers/isPositiveInteger')
 const parseObjectId = require('../helpers/parseObjectId')
 const { getFileInfoById } = require('../service/s3/s3')
+const ObjectId = require('mongoose').Types.ObjectId
 
 /** 預設一頁幾筆資料 */
 const defaultPageSize = 10
@@ -38,7 +39,6 @@ const post = {
       filterByQuery.content = new RegExp(`${q}`, 'i')
     }
     if (_id) {
-      const ObjectId = require('mongoose').Types.ObjectId
       filterByQuery._id = ObjectId(_id)
     }
     const filterBySort = {}
