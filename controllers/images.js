@@ -14,10 +14,14 @@ const {
 } = require('../service/blocker/rule/image-rule')
 
 async function getImage (req, res, next) {
-  if (!req.params.key) { return appError('404', 'fetch image requires a key!!', next) }
+  if (!req.params.key) {
+    return appError('404', 'fetch image requires a key!!', next)
+  }
 
   const { key } = req.params
-  if (!key) { return appError('404', 'key required!!', next) }
+  if (!key) {
+    return appError('404', 'key required!!', next)
+  }
 
   const buffer = (await getFileById(key)).Body
 

@@ -41,11 +41,17 @@ const post = {
     if (_id) {
       filterByQuery._id = ObjectId(_id)
     }
-    const filterBySort = {}
 
-    if (checkValueCanSort(likes)) { filterBySort.likes = likes }
-    if (checkValueCanSort(comments)) { filterBySort.comments = comments }
-    if (checkValueCanSort(createdAt)) { filterBySort.createdAt = createdAt }
+    const filterBySort = {}
+    if (checkValueCanSort(likes)) {
+      filterBySort.likes = likes
+    }
+    if (checkValueCanSort(comments)) {
+      filterBySort.comments = comments
+    }
+    if (checkValueCanSort(createdAt)) {
+      filterBySort.createdAt = createdAt
+    }
 
     const posts = await Post.find(filterByQuery)
       .populate({
@@ -152,7 +158,9 @@ const post = {
     }
 
     const post = await Post.findByIdAndUpdate(id, { content }, { new: true })
-    if (!post) { return appError(400, '貼文不存在', next) }
+    if (!post) {
+      return appError(400, '貼文不存在', next)
+    }
 
     const result = await Post.findByIdAndUpdate(
       id,
@@ -168,7 +176,9 @@ const post = {
 
   deletePost: handleErrorAsync(async (req, res, next) => {
     const deletePost = await Post.findByIdAndDelete(req.params.id)
-    if (!deletePost) { return appError(404, '刪除錯誤，沒有id ?', next) }
+    if (!deletePost) {
+      return appError(404, '刪除錯誤，沒有id ?', next)
+    }
 
     if (!deletePost.comments?.length) {
       return successHandler(res, '刪除成功', deletePost)
@@ -191,8 +201,11 @@ const post = {
 
   getPost: handleErrorAsync(async (req, res, next) => {
     const id = req.params.postId
+
     const post = await Post.findById(id)
-    if (!post) { return appError(400, '貼文不存在', next) }
+    if (!post) {
+      return appError(400, '貼文不存在', next)
+    }
 
     const result = await Post.findById(id)
       .populate({
