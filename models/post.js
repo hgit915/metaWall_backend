@@ -3,7 +3,7 @@ const schema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
       require: [true, '請輸入貼文者名稱']
     },
     image: {
@@ -15,12 +15,12 @@ const schema = new mongoose.Schema(
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'user',
+      ref: 'User',
       default: []
     },
     comments: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'comment',
+      ref: 'Comment',
       default: []
     },
     tag: {
@@ -41,4 +41,4 @@ const schema = new mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('post', schema)
+module.exports = mongoose.model('Post', schema)

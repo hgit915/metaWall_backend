@@ -3,7 +3,7 @@ const schema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'User',
       required: [true, '請填寫留言者']
     },
     content: {
@@ -24,6 +24,6 @@ const schema = new mongoose.Schema(
   }
 )
 
-const Comment = mongoose.model('comment', schema)
+const Comment = mongoose.model('Comment', schema)
 
 module.exports = Comment

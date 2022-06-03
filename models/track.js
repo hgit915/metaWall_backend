@@ -3,11 +3,11 @@ const schema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'User'
     },
     tracking: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'User'
     },
     createdAt: {
       type: Date,
@@ -19,6 +19,6 @@ const schema = new mongoose.Schema(
   }
 )
 
-const Track = mongoose.model('track', schema)
+const Track = mongoose.model('Track', schema)
 
 module.exports = Track
