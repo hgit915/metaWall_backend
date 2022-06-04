@@ -1,7 +1,13 @@
+require('./types/type')
 const validator = require('validator')
 const User = require('../../../models/user')
 
-/** 判斷name、email、password欄位是否都有填值 */
+/**
+ * 判斷name、email、password欄位是否都有填值
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function haveNameEmailPassword (req) {
   const { email, password, name } = req.body
   return email && password && name
@@ -12,7 +18,12 @@ function haveNameEmailPassword (req) {
       }
 }
 
-/** 判斷email格式是否正確 */
+/**
+ * 判斷email格式是否正確
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isEmailCorrectFormat (req) {
   return validator.isEmail(req.body.email)
     ? true
@@ -22,7 +33,12 @@ function isEmailCorrectFormat (req) {
       }
 }
 
-/** 判斷email是否沒有被註冊過 */
+/**
+ * 判斷email是否沒有被註冊過
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 async function isEmailHasntBeenRegistered (req) {
   const user = await User.findOne({ email: req.body.email })
   return !user
@@ -33,7 +49,12 @@ async function isEmailHasntBeenRegistered (req) {
       }
 }
 
-/** 判斷name是否大於2個字元 */
+/**
+ * 判斷name是否大於2個字元
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isNameLengthGreaterThanTwo (req) {
   return validator.isLength(req.body.name, { min: 2 })
     ? true
@@ -43,7 +64,12 @@ function isNameLengthGreaterThanTwo (req) {
       }
 }
 
-/** 判斷password是否大於8個字元 */
+/**
+ * 判斷password是否大於8個字元
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isPasswordLengthGreaterThanEight (req) {
   return validator.isLength(req.body.password, { min: 8 })
     ? true
@@ -53,14 +79,24 @@ function isPasswordLengthGreaterThanEight (req) {
       }
 }
 
-/** 判斷有name的情況，name是否大於2個字元 */
+/**
+ * 判斷有name的情況，name是否大於2個字元
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function hasNameAndNameLengthGreaterThanTwo (req) {
   return !req.body.name
     ? true
     : isNameLengthGreaterThanTwo(req)
 }
 
-/** 判斷有gender的情況，該值符合可寫入資料庫的格式 */
+/**
+ * 判斷有gender的情況，該值符合可寫入資料庫的格式
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function hadGenderAndValueValid (req) {
   const { gender } = req.body
   console.log(gender)

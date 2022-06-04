@@ -1,18 +1,12 @@
+require('./types/type')
 const sizeOf = require('image-size')
-/**
- *
- * - 規則說明
- *
- * 底下所創建的rule function用來驗證東西是否正確
- * 驗證若正確，回傳true
- * 若不正確，回傳格式為
- * {
- *    errorMessage: string,
- *    statusCode: number | string
- * }
- *
- */
 
+/**
+ * 判斷request是否有file屬性
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isFileExist (req) {
   return req.file
     ? true
@@ -22,6 +16,12 @@ function isFileExist (req) {
       }
 }
 
+/**
+ * 判斷request中的form-data，放入檔案欄位的key是否叫做'image'
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isFieldNameImage (req) {
   return req.file.fieldname === 'image'
     ? true
@@ -31,6 +31,12 @@ function isFieldNameImage (req) {
       }
 }
 
+/**
+ * 判斷request中的file格式是否是image
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isImageType (req) {
   return req.file.mimetype.startsWith('image')
     ? true
@@ -40,6 +46,12 @@ function isImageType (req) {
       }
 }
 
+/**
+ * 判斷request中的file大小是否小於1MB
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isFileSizeLessThan1MB (req) {
   const mb = 1024 * 1024
   return req.file.size < mb
@@ -50,6 +62,12 @@ function isFileSizeLessThan1MB (req) {
       }
 }
 
+/**
+ * 判斷request中的file寬度是否大於300px
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isImageWidthGreaterThan300 (req) {
   const { minWidth } = req.body
   const { width } = sizeOf(req.file.path)
@@ -64,6 +82,12 @@ function isImageWidthGreaterThan300 (req) {
       }
 }
 
+/**
+ * 判斷request中的file，長寬比是否是1:1
+ *
+ * @param {Request} req 請求的資訊
+ * @returns {true | ErrorInfo} true或者錯誤資訊
+ */
 function isImage1And1Ratio (req) {
   const { width, height } = sizeOf(req.file.path)
   const { ratio } = req.body
