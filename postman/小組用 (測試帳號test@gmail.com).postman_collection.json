@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "352147ed-c2f5-4117-9dec-c98d06dc09d5",
+		"_postman_id": "fb237e0a-514d-4326-9a51-e343a1b0d272",
 		"name": "小組用 (測試帳號test@gmail.com)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7795449"
@@ -142,7 +142,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\":\"編輯貼文\"\r\n}",
+							"raw": "{\r\n    \"content\":\"image 參數再請幫傳 upload 回傳的imageURL\",\r\n    \"image\":\"dc14a6f1c93c22c005fabfbe7dd7236b\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -150,13 +150,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/posts/6285245c841073c307407b9d",
+							"raw": "{{url}}/posts/629ad98c4f0ecd7c3336c301",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"posts",
-								"6285245c841073c307407b9d"
+								"629ad98c4f0ecd7c3336c301"
 							]
 						}
 					},

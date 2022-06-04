@@ -149,24 +149,34 @@ const post = {
   },
 
   editPost: async (req, res, next) => {
-    const { content } = req.body
+    const { content, image } = req.body
     const id = req.params.postId
 
-    if (!content) {
-      return appError(400, '貼文內容不可為空', next)
+    if (!content && !image) {
+      return appError(400, '編輯貼文、圖片需擇一更新，不可皆為空', next)
     }
 
-    const post = await Post.findByIdAndUpdate(id, { content }, { new: true })
+    const post = await Post.findById(id)
     if (!post) {
       return appError(400, '貼文不存在', next)
     }
 
+    const updateQuery = {
+      content,
+      updatedAt: Date.now()
+    }
+
+    if (image) {
+      const isImageInS3 = await getFileInfoById(image)
+      if (!isImageInS3) {
+        return appError(400, '該圖片不存在在雲端', next)
+      }
+      updateQuery.image = image
+    }
+
     const result = await Post.findByIdAndUpdate(
       id,
-      {
-        content,
-        updatedAt: Date.now()
-      },
+      updateQuery,
       { new: true }
     )
 
