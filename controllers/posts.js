@@ -149,14 +149,19 @@ const post = {
   },
 
   editPost: async (req, res, next) => {
-    const { content } = req.body
+    const { content, image } = req.body
     const id = req.params.postId
 
     if (!content) {
       return appError(400, '貼文內容不可為空', next)
     }
 
-    const post = await Post.findByIdAndUpdate(id, { content }, { new: true })
+    const originalImg = await Post.findById(id).select({ image: 1, _id: 0 })
+    const post = await Post.findByIdAndUpdate(id,
+      {
+        content,
+        image: image || originalImg.image
+      }, { new: true })
     if (!post) {
       return appError(400, '貼文不存在', next)
     }
