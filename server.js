@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
@@ -16,23 +15,12 @@ const chatImgRouter = require('./routes/chatImg')
 const appError = require('./service/appError')
 const swaggerUI = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
+const connectToMongo = require('./connections/mongoose')
 
 require('dotenv').config()
 dotenv.config({ path: './.env' })
 
-const DB = process.env.DATABASE.replace(
-  '<password>',
-  process.env.DATABASE_PASSWORD
-)
-
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log('資料庫連線成功')
-  })
-  .catch((e) => {
-    console.log(e.reason)
-  })
+connectToMongo()
 
 const app = express()
 
