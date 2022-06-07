@@ -1,6 +1,5 @@
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth2').Strategy
-const User = require('../models/user')
 
 module.exports = (passport) => {
   // Facebook 登入
@@ -13,6 +12,7 @@ module.exports = (passport) => {
         profileFields: ['email', 'displayName', 'id', 'photos']
       },
       (accessToken, refreshToken, profile, cb) => {
+        console.log(profile)
         return cb(null, profile._json)
       }
     )

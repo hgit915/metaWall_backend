@@ -11,7 +11,10 @@ router.get(
 
 router.get(
   '/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/sign_in' }),
+  passport.authenticate('facebook', {
+    session: false,
+    failureRedirect: '/sign_in'
+  }),
   handleErrorAsync(ThirdPartyController.facebookSignIn)
 )
 
