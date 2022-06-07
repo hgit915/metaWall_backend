@@ -12,11 +12,10 @@ const googleSignIn = async (req, res, next) => {
 }
 
 const facebookSignIn = async (req, res, next) => {
-  console.log(req.user)
-  const { id, name, photos, email } = req.user
+  const { id, name, email } = req.user
 
-  req.thirdParty = { provider: 'google', keyInUserSchema: 'googleId', id }
-  req.user = { name, email, photo: photos }
+  req.thirdParty = { provider: 'facebook', keyInUserSchema: 'facebookId', id }
+  req.user = { name, email }
 
   await thirdPartySignin(req, res, next)
 }

@@ -9,10 +9,9 @@ module.exports = (passport) => {
         clientID: process.env.FACEBOOK_ID,
         clientSecret: process.env.FACEBOOK_SECRET,
         callbackURL: process.env.FACEBOOK_CALLBACK,
-        profileFields: ['email', 'displayName', 'id', 'photos']
+        profileFields: ['email', 'displayName', 'id']
       },
       (accessToken, refreshToken, profile, cb) => {
-        console.log(profile)
         return cb(null, profile._json)
       }
     )
