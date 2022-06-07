@@ -38,7 +38,8 @@ async function thirdPartySignin (req, res, next) {
   const password = await bcrypt.hash(id, 12)
   const newUser = await User.create({
     ...req.user,
-    password
+    password,
+    [keyInUserSchema]: id
   })
   return generateUrlJWT(res, newUser)
 }
