@@ -26,18 +26,23 @@ const isAuth = async (req, res, next) => {
         }
       })
     })
-    const currentUser = await User.findById(decoded.id)
+    const currentUser = await User.findById(decoded.id).select('+googleId +facebookId')
     req.user = currentUser
     next()
   } catch (error) {
     return appError(404, error.message, next)
   }
 }
-const generateSendJWT = (user, statusCode, res) => {
-  // 產生 JWT token
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+
+const generateToken = (user) => {
+  return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_DAY
   })
+}
+
+const generateSendJWT = (user, statusCode, res) => {
+  // 產生 JWT token
+  const token = generateToken(user)
   user.password = undefined
   res.status(statusCode).json({
     status: 'success',
@@ -50,14 +55,13 @@ const generateSendJWT = (user, statusCode, res) => {
 }
 
 const generateUrlJWT = (res, user) => {
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_DAY
-  })
+  const token = generateToken(user)
   user.password = undefined
-  res.redirect(`${process.env.FONTEND_URL}?token=${token}`)
+  res.redirect(`${process.env.FONTEND_URL}/oauth?token=${token}`)
 }
 module.exports = {
   isAuth,
+  generateToken,
   generateSendJWT,
   generateUrlJWT
 }

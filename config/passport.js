@@ -1,6 +1,5 @@
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth2').Strategy
-const checkUser = require('../helpers/checkUser')
 const User = require('../models/user')
 
 module.exports = (passport) => {
@@ -11,9 +10,11 @@ module.exports = (passport) => {
         clientID: process.env.FACEBOOK_ID,
         clientSecret: process.env.FACEBOOK_SECRET,
         callbackURL: process.env.FACEBOOK_CALLBACK,
-        profileFields: ['email', 'displayName']
+        profileFields: ['email', 'displayName', 'id', 'photos']
       },
-      checkUser
+      (accessToken, refreshToken, profile, cb) => {
+        return cb(null, profile._json)
+      }
     )
   )
 
@@ -26,7 +27,9 @@ module.exports = (passport) => {
         callbackURL: process.env.GOOGL_CALLBACK,
         profileFields: ['email', 'displayName']
       },
-      checkUser
+      (accessToken, refreshToken, profile, cb) => {
+        return cb(null, profile._json)
+      }
     )
   )
 
