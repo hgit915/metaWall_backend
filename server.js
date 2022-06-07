@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const session = require('express-session')
 const passport = require('passport')
 const resError = require('./service/resError')
 const dotenv = require('dotenv')
@@ -35,14 +36,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-
-app.use(
-  {
-    secret: process.env.JWT_SECRET, // secret: 定義一組屬於你的字串做為私鑰
-    resave: false,
-    saveUninitialized: false
-  }
-)
 
 // 使用 Passport
 app.use(passport.initialize())
