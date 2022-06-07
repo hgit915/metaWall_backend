@@ -70,7 +70,10 @@ const users = {
   },
 
   getUserInfo: async (req, res, next) => {
-    const userData = await User.findById(req.user._id)
+    const userData = await User.findById(req.user._id).select('+googleId +facebookId')
+    userData.isThirdPartyLogin = !!(userData.googleId || userData.facebookId)
+    delete userData.googleId
+    delete userData.facebookId
     successHandler(res, '取得用戶資料成功', userData)
   },
 

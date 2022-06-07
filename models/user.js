@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'male',
       enum: ['male', 'female']
+    },
+    googleId: {
+      type: String,
+      select: false
+    },
+    facebookId: {
+      type: String,
+      select: false
     }
   },
   { versionKey: false }

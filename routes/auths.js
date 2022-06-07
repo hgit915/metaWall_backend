@@ -1,19 +1,18 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const { generateUrlJWT } = require('../service/auth')
+const handleErrorAsync = require('../service/handleErrorAsync')
+const ThirdPartyController = require('../controllers/thirdParty')
 
 router.get(
   '/facebook',
   passport.authenticate('facebook', { scope: ['email', 'public_profile'] })
 )
+
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/sign_in' }),
-  (req, res) => {
-    const user = req.user
-    generateUrlJWT(res, user)
-  }
+  handleErrorAsync(ThirdPartyController.facebookSignIn)
 )
 
 router.get(
@@ -25,11 +24,11 @@ router.get(
 
 router.get(
   '/google/redirect',
-  passport.authenticate('google', { failureRedirect: '/sign_in' }),
-  (req, res) => {
-    const user = req.user
-    generateUrlJWT(res, user)
-  }
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: '/sign_in'
+  }),
+  handleErrorAsync(ThirdPartyController.googleSignIn)
 )
 
 module.exports = router
